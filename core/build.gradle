@@ -4,3 +4,16 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 eclipse.project.name = appName + "-core"
+
+ext {
+    daggerVersion = '2.44'
+}
+
+project(":core") {
+    apply plugin: "java"
+
+    dependencies {
+        implementation("com.google.dagger:dagger:2.44")
+        annotationProcessor("com.google.dagger:dagger-compiler:2.44")
+    }
+}
