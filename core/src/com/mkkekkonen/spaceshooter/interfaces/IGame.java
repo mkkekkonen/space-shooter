@@ -11,8 +11,7 @@ import dagger.Component;
 @Singleton
 @Component(
         modules = {
-                Ship.class,
-                ResourceManager.class
+                Ship.class
         }
 )
 public interface IGame {

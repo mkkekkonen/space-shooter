@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dagger.Module;
 
-@Module
+@Singleton
 public class ResourceManager {
     private Map<String, Texture> textures;
 

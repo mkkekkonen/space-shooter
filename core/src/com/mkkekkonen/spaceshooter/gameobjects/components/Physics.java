@@ -1,27 +1,41 @@
 package com.mkkekkonen.spaceshooter.gameobjects.components;
 
+import com.badlogic.gdx.math.Vector2;
+import com.mkkekkonen.spaceshooter.math.MathUtils;
+
 public class Physics {
-    private float x;
-    private float y;
+    private Vector2 position;
+    private Vector2 velocity;
 
     public Physics(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.setPosition(new Vector2(x, y));
+        this.velocity = new Vector2();
     }
 
-    public float getX() {
-        return x;
+    public void update(float deltaTime) {
+        Vector2 newPosition = this.getPosition().add(
+                MathUtils.vecMulScalar(
+                    MathUtils.vecMToPx(this.velocity),
+                    deltaTime
+                )
+        );
+
+        this.setPosition(newPosition);
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
-    public float getY() {
-        return y;
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 }
