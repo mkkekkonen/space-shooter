@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
@@ -16,13 +17,18 @@ import dagger.Module;
 @Module
 public class Ship implements IDrawable {
     float x, y, width, height, scale = 1;
+
+    Physics physics;
+
     Vector2 origin;
     Texture texture;
 
     @Inject
     Ship(ResourceManager resourceManager) {
-        this.x = Gdx.graphics.getWidth() / 2;
-        this.y = MathUtils.mToPx(4);
+        this.physics = new Physics(
+                Gdx.graphics.getWidth() / 2,
+                MathUtils.mToPx(4)
+        );
 
         this.texture = resourceManager.getSprite("ship");
 
