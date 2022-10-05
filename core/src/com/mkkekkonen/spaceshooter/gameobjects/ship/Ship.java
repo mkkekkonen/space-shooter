@@ -1,5 +1,6 @@
 package com.mkkekkonen.spaceshooter.gameobjects.ship;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -50,12 +51,12 @@ public class Ship implements IDrawable, IPhysicsObject {
 
     @Override
     public void update(float deltaTime) {
-        if (this.inputManager.isKeyLeftPressed()) {
-            this.physics.setVelocity(new Vector2(-speed, 0));
-        } else if (this.inputManager.isKeyRightPressed()) {
-            this.physics.setVelocity((new Vector2(speed, 0)));
-        } else {
-            this.physics.setVelocity(new Vector2());
+        ApplicationType appType = Gdx.app.getType();
+
+        if (appType.equals(ApplicationType.Desktop)) {
+            this.handleKeyboardInput();
+        } else if (appType.equals(ApplicationType.Android)) {
+            this.handleTouchInput();
         }
 
         this.physics.update(deltaTime);
@@ -77,5 +78,38 @@ public class Ship implements IDrawable, IPhysicsObject {
                 this.scale,
                 0
         );
+    }
+
+    private void handleKeyboardInput() {
+        if (this.inputManager.isKeyLeftPressed()) {
+            this.physics.setVelocity(new Vector2(-speed, 0));
+        } else if (this.inputManager.isKeyRightPressed()) {
+            this.physics.setVelocity((new Vector2(speed, 0)));
+        } else {
+            this.physics.setVelocity(new Vector2());
+        }
+    }
+
+    private void handleTouchInput() {
+        Vector2 touchLocation = this.inputManager.getTouchLocation();
+
+        if (touchLocation != null) {
+            this.handleTouchVelocity();
+        } else {
+            this.physics.setVelocity(new Vector2());
+        }
+    }
+
+    private void handleTouchVelocity() {
+        Vector2 currentPosition = this.physics.getPosition();
+        Vector2 touchLocation = this.inputManager.getTouchLocation();
+
+        if (touchLocation.x < currentPosition.x) {
+            this.physics.setVelocity(new Vector2(-speed, 0));
+        } else if (touchLocation.x > currentPosition.x) {
+            this.physics.setVelocity(new Vector2(speed, 0));
+        } else {
+            this.physics.setVelocity(new Vector2());
+        }
     }
 }
