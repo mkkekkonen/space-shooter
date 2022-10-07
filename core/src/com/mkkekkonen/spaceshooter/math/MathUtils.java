@@ -1,5 +1,6 @@
 package com.mkkekkonen.spaceshooter.math;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mkkekkonen.spaceshooter.utils.Constants;
 
@@ -20,5 +21,16 @@ public class MathUtils {
                 vector.x * scalar,
                 vector.y * scalar
         );
+    }
+
+    public static float[] getSpriteWidthHeight(Texture texture, float spriteWidth) {
+        float textureWidth = texture.getWidth();
+        float textureHeight = texture.getHeight();
+
+        float width = MathUtils.mToPx(spriteWidth);
+        float coefficient = width / textureWidth;
+        float height = textureHeight * coefficient;
+
+        return new float[] {width, height};
     }
 }

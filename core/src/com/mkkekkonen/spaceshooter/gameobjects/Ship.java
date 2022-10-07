@@ -1,4 +1,4 @@
-package com.mkkekkonen.spaceshooter.gameobjects.ship;
+package com.mkkekkonen.spaceshooter.gameobjects;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
@@ -23,7 +23,7 @@ public class Ship implements IDrawable, IPhysicsObject {
 
     float width, height, scale = 1;
 
-    static final float speed = 2;
+    static final float speed = 5;
 
     Physics physics;
 
@@ -39,14 +39,14 @@ public class Ship implements IDrawable, IPhysicsObject {
 
         this.texture = resourceManager.getSprite("ship");
 
-        float textureWidth = this.texture.getWidth();
-        float textureHeight = this.texture.getHeight();
+        float[] widthHeight = MathUtils.getSpriteWidthHeight(this.texture, 2);
+        this.width = widthHeight[0];
+        this.height = widthHeight[1];
 
-        this.width = MathUtils.mToPx(2);
-        float coefficient = this.width / textureWidth;
-        this.height = textureHeight * coefficient;
-
-        this.origin = new Vector2(textureWidth / 2, textureHeight / 2);
+        this.origin = new Vector2(
+                this.texture.getWidth() / 2,
+                this.texture.getHeight() / 2
+        );
     }
 
     @Override

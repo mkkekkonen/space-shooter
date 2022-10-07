@@ -23,6 +23,10 @@ public class ResourceManager {
     private void loadResources() {
         this.textures = new HashMap<>();
         this.textures.put("ship", new Texture(Gdx.files.internal("ship.png")));
+
+        for (int i = 1; i <= 6; i++) {
+            this.textures.put("roid" + i, new Texture(Gdx.files.internal("roid" + i + ".png")));
+        }
     }
 
     public Texture getSprite(String key) {
