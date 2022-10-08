@@ -17,40 +17,23 @@ import javax.inject.Inject;
 import dagger.Module;
 
 @Module
-public class Asteroid implements IDrawable, IPhysicsObject {
-    float width, height;
-
-    Physics physics;
-
-    Vector2 origin;
-    Texture texture;
-
+public class Asteroid extends AbstractGameObject {
     @Inject
     Asteroid(ResourceManager resourceManager, RandomGenerator randomGenerator) {
-        Vector2 initialPosition =new Vector2(
-                randomGenerator.getRandomFloat(25, Gdx.graphics.getWidth() - 25),
-                Gdx.graphics.getHeight() + 50
-        );
-        Vector2 velocity =new Vector2(
-                0,
-                randomGenerator.getRandomFloat(-7, -3)
-        );
-        float angularVelocity = randomGenerator.getRandomFloat(-15, 15);
-
-        this.physics = new Physics(initialPosition, velocity, angularVelocity);
-
-        this.texture = resourceManager.getSprite("roid" + randomGenerator.getRandomInt(1, 6 + 1));
-
-        float[] widthHeight = MathUtils.getSpriteWidthHeight(
-                this.texture,
+        super(
+                new Physics(
+                        new Vector2(
+                                randomGenerator.getRandomFloat(25, Gdx.graphics.getWidth() - 25),
+                                Gdx.graphics.getHeight() + 50
+                        ),
+                        new Vector2(
+                                0,
+                                randomGenerator.getRandomFloat(-7, -3)
+                        ),
+                        randomGenerator.getRandomFloat(-15, 15)
+                ),
+                resourceManager.getSprite("roid" + randomGenerator.getRandomInt(1, 6 + 1)),
                 randomGenerator.getRandomFloat(0.75f, 2.5f)
-        );
-        this.width = widthHeight[0];
-        this.height = widthHeight[1];
-
-        this.origin = new Vector2(
-                this.texture.getWidth() / 2,
-                this.texture.getHeight() / 2
         );
     }
 

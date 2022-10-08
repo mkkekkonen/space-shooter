@@ -18,34 +18,20 @@ import javax.inject.Inject;
 import dagger.Module;
 
 @Module
-public class Ship implements IDrawable, IPhysicsObject {
+public class Ship extends AbstractGameObject {
     @Inject InputManager inputManager;
-
-    float width, height, scale = 1;
 
     static final float speed = 5;
 
-    Physics physics;
-
-    Vector2 origin;
-    Texture texture;
-
     @Inject
     Ship(ResourceManager resourceManager) {
-        this.physics = new Physics(
-                Gdx.graphics.getWidth() / 2,
-                MathUtils.mToPx(4)
-        );
-
-        this.texture = resourceManager.getSprite("ship");
-
-        float[] widthHeight = MathUtils.getSpriteWidthHeight(this.texture, 2);
-        this.width = widthHeight[0];
-        this.height = widthHeight[1];
-
-        this.origin = new Vector2(
-                this.texture.getWidth() / 2,
-                this.texture.getHeight() / 2
+        super(
+                new Physics(
+                        Gdx.graphics.getWidth() / 2,
+                        MathUtils.mToPx(4)
+                ),
+                resourceManager.getSprite("ship"),
+                2
         );
     }
 
