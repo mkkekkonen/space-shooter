@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
@@ -13,20 +14,21 @@ import javax.inject.Inject;
 import dagger.Module;
 
 @Module
-public class ShootingBar implements IDrawable {
+public class ShootingBar extends AbstractGameObject {
     float y = MathUtils.mToPx(8);
-
-    float width, height, scale;
-
-    Texture texture;
 
     @Inject
     ShootingBar(ResourceManager resourceManager) {
-        this.texture = resourceManager.getSprite("shootingBarComponent");
+        super(
+                null,
+                resourceManager.getSprite("shootingBarComponent"),
+                0.1f
+        );
+    }
 
-        float[] widthHeight = MathUtils.getSpriteWidthHeight(this.texture, 0.1f);
-        this.width = widthHeight[0];
-        this.height = widthHeight[1];
+    @Override
+    public void update(float deltaTime) {
+
     }
 
     @Override
