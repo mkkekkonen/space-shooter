@@ -17,7 +17,7 @@ public class SpaceShooter extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+		this.batch = new SpriteBatch();
 
 		this.game = DaggerIGame.builder().build();
 		this._game = game.game();
@@ -29,13 +29,14 @@ public class SpaceShooter extends ApplicationAdapter {
 
 		this._game.update();
 
-		batch.begin();
+		this.batch.begin();
 		this._game.render(batch);
-		batch.end();
+		this.batch.end();
 	}
 	
 	@Override
 	public void dispose () {
-		batch.dispose();
+		this.batch.dispose();
+		this._game.dispose();
 	}
 }

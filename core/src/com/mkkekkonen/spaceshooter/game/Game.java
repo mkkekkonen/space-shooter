@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mkkekkonen.spaceshooter.gameobjects.Asteroid;
 import com.mkkekkonen.spaceshooter.gameobjects.Ship;
+import com.mkkekkonen.spaceshooter.gameobjects.ShootingBar;
 import com.mkkekkonen.spaceshooter.input.InputManager;
 import com.mkkekkonen.spaceshooter.math.RandomGenerator;
+import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,10 @@ public class Game
 {
     @Inject InputManager inputManager;
     @Inject Ship ship;
+    @Inject ShootingBar shootingBar;
     @Inject Provider<Asteroid> asteroidProvider;
     @Inject RandomGenerator randomGenerator;
+    @Inject ResourceManager resourceManager;
 
     List<Asteroid> asteroids = new ArrayList<>();
 
@@ -51,8 +55,13 @@ public class Game
 
     public void render(SpriteBatch batch) {
         this.ship.draw(batch);
+        this.shootingBar.draw(batch);
         for (Asteroid asteroid : this.asteroids) {
             asteroid.draw(batch);
         }
+    }
+
+    public void dispose() {
+        this.resourceManager.dispose();
     }
 }
