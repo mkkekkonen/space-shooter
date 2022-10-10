@@ -37,29 +37,6 @@ public class Asteroid extends AbstractGameObject {
         );
     }
 
-    @Override
-    public void update(float deltaTime) {
-        this.physics.update(deltaTime);
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        Vector2 position = this.physics.getPosition();
-
-        batch.draw(
-                new TextureRegion(this.texture),
-                position.x - (this.width / 2),
-                position.y - (this.height / 2),
-                this.width / 2,
-                this.height / 2,
-                this.width,
-                this.height,
-                1,
-                1,
-                this.physics.getRotationDeg()
-        );
-    }
-
     public float getY() {
         return this.physics.getPosition().y;
     }

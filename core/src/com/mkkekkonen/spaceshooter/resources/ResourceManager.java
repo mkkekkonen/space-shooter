@@ -30,6 +30,7 @@ public class ResourceManager {
         this.textures = new HashMap<>();
         this.textures.put("ship", this.loadTexture("ship.png"));
         this.textures.put("shootingBarComponent", this.loadTexture("shootingbar.png"));
+        this.textures.put("bullet", this.loadTexture("bullet.png"));
 
         for (int i = 1; i <= 6; i++) {
             this.textures.put("roid" + i, this.loadTexture("roid" + i + ".png"));

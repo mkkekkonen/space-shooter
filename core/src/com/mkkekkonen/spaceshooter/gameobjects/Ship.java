@@ -45,25 +45,7 @@ public class Ship extends AbstractGameObject {
             this.handleTouchInput();
         }
 
-        this.physics.update(deltaTime);
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        Vector2 position = this.physics.getPosition();
-
-        batch.draw(
-                new TextureRegion(this.texture),
-                position.x - (this.width / 2),
-                position.y - (this.height / 2),
-                this.width / 2,
-                this.height / 2,
-                this.width,
-                this.height,
-                this.scale,
-                this.scale,
-                0
-        );
+        super.update(deltaTime);
     }
 
     private void handleKeyboardInput() {

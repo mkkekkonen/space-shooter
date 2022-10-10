@@ -12,6 +12,8 @@ import javax.inject.Singleton;
 public class InputManager {
     private boolean keyLeft = false;
     private boolean keyRight = false;
+    private boolean shooting = false;
+
     private Vector2 touchLocation;
 
     @Inject
@@ -29,7 +31,8 @@ public class InputManager {
 
     private void getKeyboardInput() {
         boolean leftPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT),
-                rightPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+                rightPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT),
+                spacePressed = Gdx.input.isKeyPressed(Input.Keys.SPACE);
 
         if (leftPressed) {
             this.keyLeft = true;
@@ -41,6 +44,12 @@ public class InputManager {
             this.keyRight = true;
         } else if (!rightPressed) {
             this.keyRight = false;
+        }
+
+        if (spacePressed) {
+            this.shooting = true;
+        } else {
+            this.shooting = false;
         }
     }
 
@@ -62,5 +71,13 @@ public class InputManager {
 
     public Vector2 getTouchLocation() {
         return touchLocation;
+    }
+
+    public boolean isShooting() {
+        return shooting;
+    }
+
+    public void setShooting(boolean shooting) {
+        this.shooting = shooting;
     }
 }
