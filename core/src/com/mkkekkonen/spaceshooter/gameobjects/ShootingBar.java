@@ -8,6 +8,7 @@ import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
+import com.mkkekkonen.spaceshooter.utils.Constants;
 
 import javax.inject.Inject;
 
@@ -15,7 +16,7 @@ import dagger.Module;
 
 @Module
 public class ShootingBar extends AbstractGameObject {
-    float y = MathUtils.mToPx(8);
+    float y = Constants.SHOOTING_BAR_Y;
 
     @Inject
     ShootingBar(ResourceManager resourceManager) {

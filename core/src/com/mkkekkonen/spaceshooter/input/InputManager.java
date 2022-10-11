@@ -55,7 +55,10 @@ public class InputManager {
 
     private void getTouchInput() {
         if (Gdx.input.isTouched()) {
-            this.touchLocation = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            this.touchLocation = new Vector2(
+                    Gdx.input.getX(),
+                    Gdx.graphics.getHeight() - Gdx.input.getY()
+            );
         } else {
             this.touchLocation = null;
         }

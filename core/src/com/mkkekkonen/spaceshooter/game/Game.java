@@ -1,5 +1,7 @@
 package com.mkkekkonen.spaceshooter.game;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mkkekkonen.spaceshooter.gamemanagers.ShootingManager;
 import com.mkkekkonen.spaceshooter.gameworld.GameWorld;
@@ -22,7 +24,15 @@ public class Game
 
     public void update() {
         this.inputManager.getInput();
-        this.shootingManager.handleDesktopShooting();
+
+        Application.ApplicationType appType = Gdx.app.getType();
+
+        if (appType.equals(Application.ApplicationType.Desktop)) {
+            this.shootingManager.handleDesktopShooting();
+        } else if (appType.equals(Application.ApplicationType.Android)) {
+            this.shootingManager.handleMobileShooting();
+        }
+
         this.gameWorld.update();
     }
 
