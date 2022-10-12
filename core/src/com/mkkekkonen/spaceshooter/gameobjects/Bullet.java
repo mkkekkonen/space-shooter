@@ -7,22 +7,21 @@ import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 
 import javax.inject.Inject;
 
+import dagger.Module;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 
+@Module
 public class Bullet extends AbstractGameObject {
     static final float y = MathUtils.mToPx(4.75f);
 
     @AssistedInject
     Bullet(ResourceManager resourceManager, @Assisted float x) {
-        super(
-            new Physics(
-                    new Vector2(x, y),
-                    new Vector2(0, 15),
-                    0.05f
-            ),
-            resourceManager.getSprite("bullet"),
-            0.1f
+        this.physics = new Physics(
+                new Vector2(x, y),
+                new Vector2(0, 15),
+                0.05f
         );
+        this.initTexture(resourceManager.getSprite("bullet"), 0.1f);
     }
 }

@@ -20,11 +20,7 @@ public class ShootingBar extends AbstractGameObject {
 
     @Inject
     ShootingBar(ResourceManager resourceManager) {
-        super(
-                null,
-                resourceManager.getSprite("shootingBarComponent"),
-                0.1f
-        );
+        this.initTexture(resourceManager.getSprite("shootingBarComponent"), 0.1f);
     }
 
     @Override

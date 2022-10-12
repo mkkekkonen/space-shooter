@@ -25,27 +25,26 @@ public class Ship extends AbstractGameObject {
 
     @Inject
     Ship(ResourceManager resourceManager) {
-        super(
-                new Physics(
-                        Gdx.graphics.getWidth() / 2,
-                        MathUtils.mToPx(4)
-                ),
-                resourceManager.getSprite("ship"),
-                2
+        this.physics = new Physics(
+                Gdx.graphics.getWidth() / 2,
+                MathUtils.mToPx(4)
         );
+        this.initTexture(resourceManager.getSprite("ship"),2);
     }
 
     @Override
     public void update(float deltaTime) {
-        ApplicationType appType = Gdx.app.getType();
+        if (this.state == State.NORMAL) {
+            ApplicationType appType = Gdx.app.getType();
 
-        if (appType.equals(ApplicationType.Desktop)) {
-            this.handleKeyboardInput();
-        } else if (appType.equals(ApplicationType.Android)) {
-            this.handleTouchInput();
+            if (appType.equals(ApplicationType.Desktop)) {
+                this.handleKeyboardInput();
+            } else if (appType.equals(ApplicationType.Android)) {
+                this.handleTouchInput();
+            }
+
+            super.update(deltaTime);
         }
-
-        super.update(deltaTime);
     }
 
     private void handleKeyboardInput() {
