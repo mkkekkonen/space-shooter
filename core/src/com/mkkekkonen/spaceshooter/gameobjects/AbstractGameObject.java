@@ -55,9 +55,9 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
         this.texture = texture;
         this.textureRegion = new TextureRegion(texture);
 
-        float[] widthHeight = MathUtils.getSpriteWidthHeight(this.texture, width);
-        this.width = widthHeight[0];
-        this.height = widthHeight[1];
+        Vector2 widthHeight = MathUtils.getSpriteWidthHeight(this.texture, width);
+        this.width = widthHeight.x;
+        this.height = widthHeight.y;
     }
 
     public float getX() {
@@ -66,5 +66,9 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
 
     public float getY() {
         return this.physics.getPosition().y;
+    }
+
+    public Vector2 getPosition() {
+        return this.physics.getPosition();
     }
 }

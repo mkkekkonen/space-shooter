@@ -22,6 +22,8 @@ import dagger.Module;
 public class Asteroid extends AbstractGameObject {
     @Inject ShapeRendererWrapper shapeRendererWrapper;
 
+    private boolean collided = false;
+
     @Inject
     Asteroid(ResourceManager resourceManager, RandomGenerator randomGenerator) {
         Vector2 initialPosition = new Vector2(
@@ -48,16 +50,26 @@ public class Asteroid extends AbstractGameObject {
         if (DebugWrapper.DEBUG) {
             batch.end();
 
+            if (this.collided) {
+                this.shapeRendererWrapper.setColor(1, 0, 0, 1);
+            }
             this.shapeRendererWrapper.drawCircle(
                     new Vector2(this.getX(), this.getY()),
                     this.width / 2
             );
+            if (this.collided) {
+                this.shapeRendererWrapper.setColor(0, 1, 0, 1);
+            }
 
             batch.begin();
         }
     }
 
-    public float getY() {
-        return this.physics.getPosition().y;
+    public float getRadius() {
+        return this.width / 2;
+    }
+
+    public void setCollided() {
+        this.collided = true;
     }
 }

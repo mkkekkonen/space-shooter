@@ -27,8 +27,13 @@ public class GameWorld {
     @Inject Provider<Asteroid> asteroidProvider;
     @Inject RandomGenerator randomGenerator;
 
-    List<Asteroid> asteroids = new ArrayList<>();
-    List<Bullet> bullets = new ArrayList<>();
+    private final List<Asteroid> asteroids = new ArrayList<>();
+    private final List<Bullet> bullets = new ArrayList<>();
+
+    private static final int BOTTOM_Y_BORDER = -50,
+        TOP_Y_BORDER = Gdx.graphics.getHeight() + 25,
+        RANDOM_MIN = 1,
+        RANDOM_MAX = 100;
 
     @Inject
     GameWorld() {}
@@ -36,14 +41,17 @@ public class GameWorld {
     public void update() {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
-        if (this.randomGenerator.getRandomInt(1, 100) == 1) {
+        if (this.randomGenerator.getRandomInt(
+                GameWorld.RANDOM_MIN,
+                GameWorld.RANDOM_MAX
+        ) == GameWorld.RANDOM_MIN) {
             this.asteroids.add(this.asteroidProvider.get());
         }
 
         this.ship.update(deltaTime);
 
-        this.updateList(this.asteroids, Direction.DOWN, -50, deltaTime);
-        this.updateList(this.bullets, Direction.UP, Gdx.graphics.getHeight() + 25, deltaTime);
+        this.updateList(this.asteroids, Direction.DOWN, GameWorld.BOTTOM_Y_BORDER, deltaTime);
+        this.updateList(this.bullets, Direction.UP, GameWorld.TOP_Y_BORDER, deltaTime);
     }
 
     public void render(SpriteBatch batch) {
@@ -88,5 +96,13 @@ public class GameWorld {
 
     public Ship getShip() {
         return ship;
+    }
+
+    public List<Asteroid> getAsteroids() {
+        return this.asteroids;
+    }
+
+    public List<Bullet> getBullets() {
+        return this.bullets;
     }
 }

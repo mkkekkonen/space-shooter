@@ -23,7 +23,7 @@ public class MathUtils {
         );
     }
 
-    public static float[] getSpriteWidthHeight(Texture texture, float spriteWidth) {
+    public static Vector2 getSpriteWidthHeight(Texture texture, float spriteWidth) {
         float textureWidth = texture.getWidth();
         float textureHeight = texture.getHeight();
 
@@ -31,6 +31,16 @@ public class MathUtils {
         float coefficient = width / textureWidth;
         float height = textureHeight * coefficient;
 
-        return new float[] {width, height};
+        return new Vector2(width, height);
+    }
+
+    public static float getDistanceBetweenVectors(Vector2 vector1, Vector2 vector2) {
+        float xDiff = vector2.x - vector1.x;
+        double xSquared = Math.pow(xDiff, 2);
+
+        float yDiff = vector2.y - vector1.y;
+        double ySquared = Math.pow(yDiff, 2);
+
+        return (float) Math.sqrt(xSquared + ySquared);
     }
 }

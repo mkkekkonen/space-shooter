@@ -3,6 +3,7 @@ package com.mkkekkonen.spaceshooter.game;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mkkekkonen.spaceshooter.gamemanagers.CollisionManager;
 import com.mkkekkonen.spaceshooter.gamemanagers.ShootingManager;
 import com.mkkekkonen.spaceshooter.gameworld.GameWorld;
 import com.mkkekkonen.spaceshooter.input.InputManager;
@@ -17,6 +18,7 @@ public class Game
     @Inject InputManager inputManager;
     @Inject ResourceManager resourceManager;
     @Inject ShootingManager shootingManager;
+    @Inject CollisionManager collisionManager;
     @Inject GameWorld gameWorld;
 
     @Inject
@@ -24,15 +26,8 @@ public class Game
 
     public void update() {
         this.inputManager.getInput();
-
-        Application.ApplicationType appType = Gdx.app.getType();
-
-        if (appType.equals(Application.ApplicationType.Desktop)) {
-            this.shootingManager.handleDesktopShooting();
-        } else if (appType.equals(Application.ApplicationType.Android)) {
-            this.shootingManager.handleMobileShooting();
-        }
-
+        this.shootingManager.update();
+        this.collisionManager.update();
         this.gameWorld.update();
     }
 

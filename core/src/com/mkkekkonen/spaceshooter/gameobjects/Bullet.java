@@ -24,4 +24,11 @@ public class Bullet extends AbstractGameObject {
         );
         this.initTexture(resourceManager.getSprite("bullet"), 0.1f);
     }
+
+    public Vector2 getMidpoint() {
+        float x = this.getX() + (this.width / 2);
+        float y = this.getY() + (this.height / 2);
+
+        return new Vector2(x, y);
+    }
 }
