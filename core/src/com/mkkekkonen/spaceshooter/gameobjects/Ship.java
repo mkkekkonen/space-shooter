@@ -2,15 +2,11 @@ package com.mkkekkonen.spaceshooter.gameobjects;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.geometry.ShapeRendererWrapper;
 import com.mkkekkonen.spaceshooter.input.InputManager;
-import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
-import com.mkkekkonen.spaceshooter.interfaces.IPhysicsObject;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 import com.mkkekkonen.spaceshooter.utils.DebugWrapper;
@@ -23,6 +19,8 @@ import dagger.Module;
 public class Ship extends AbstractGameObject {
     @Inject InputManager inputManager;
     @Inject ShapeRendererWrapper shapeRendererWrapper;
+
+    private boolean collided = false;
 
     static final float speed = 5;
 
@@ -57,11 +55,36 @@ public class Ship extends AbstractGameObject {
         if (DebugWrapper.DEBUG) {
             batch.end();
 
-            Vector2[] points = this.getDebugTriangleVectors();
+            if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
+            Vector2[] points = this.getTriangleVectors();
             this.shapeRendererWrapper.drawTriangle(points[0], points[1], points[2]);
+            if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
 
             batch.begin();
         }
+    }
+
+    public Vector2[] getTriangleVectors() {
+        float x = this.getX();
+        float y = this.getY();
+
+        float widthHalved = this.width / 2;
+        float heightHalved = this.height / 2;
+
+        float topY = y + heightHalved;
+
+        Vector2 topCenter = new Vector2(x, topY);
+
+        float bottomLeftX = x - widthHalved;
+        float bottomY = y - heightHalved;
+
+        Vector2 bottomLeft = new Vector2(bottomLeftX, bottomY);
+
+        float bottomRightX = x + widthHalved;
+
+        Vector2 bottomRight = new Vector2(bottomRightX, bottomY);
+
+        return new Vector2[] {topCenter, bottomRight, bottomLeft};
     }
 
     private void handleKeyboardInput() {
@@ -97,26 +120,7 @@ public class Ship extends AbstractGameObject {
         }
     }
 
-    private Vector2[] getDebugTriangleVectors() {
-        float x = this.getX();
-        float y = this.getY();
-
-        float widthHalved = this.width / 2;
-        float heightHalved = this.height / 2;
-
-        float topY = y + heightHalved;
-
-        Vector2 topCenter = new Vector2(x, topY);
-
-        float bottomLeftX = x - widthHalved;
-        float bottomY = y - heightHalved;
-
-        Vector2 bottomLeft = new Vector2(bottomLeftX, bottomY);
-
-        float bottomRightX = x + widthHalved;
-
-        Vector2 bottomRight = new Vector2(bottomRightX, bottomY);
-
-        return new Vector2[] {topCenter, bottomRight, bottomLeft};
+    public void setCollided(boolean collided) {
+        this.collided = collided;
     }
 }

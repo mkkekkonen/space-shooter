@@ -50,16 +50,12 @@ public class Asteroid extends AbstractGameObject {
         if (DebugWrapper.DEBUG) {
             batch.end();
 
-            if (this.collided) {
-                this.shapeRendererWrapper.setColor(1, 0, 0, 1);
-            }
+            if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
             this.shapeRendererWrapper.drawCircle(
                     new Vector2(this.getX(), this.getY()),
                     this.width / 2
             );
-            if (this.collided) {
-                this.shapeRendererWrapper.setColor(0, 1, 0, 1);
-            }
+            if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
 
             batch.begin();
         }
