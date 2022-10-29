@@ -26,6 +26,20 @@ public class CollisionManager {
         this.handleShipAsteroidCollisions();
     }
 
+    public static List<Vector2[]> getShipLines(Vector2[] points) {
+        List<Vector2[]> lines = new ArrayList<>();
+
+        // prepopulate lines
+        for (int i = 0; i < points.length; i++) {
+            Vector2 firstPoint = points[i];
+            Vector2 secondPoint = (Vector2) Utils.getNextElementInArray(points, i);
+            Vector2[] line = new Vector2[] { firstPoint, secondPoint };
+            lines.add(line);
+        }
+
+        return lines;
+    }
+
     private void handleBulletCollisions() {
         for (Bullet bullet : this.gameWorld.getBullets()) {
             for (Asteroid asteroid : this.gameWorld.getAsteroids()) {
@@ -44,15 +58,8 @@ public class CollisionManager {
     private void handleShipAsteroidCollisions() {
         Ship ship = this.gameWorld.getShip();
         Vector2[] points = ship.getTriangleVectors();
-        List<Vector2[]> lines = new ArrayList<>();
 
-        // prepopulate lines
-        for (int i = 0; i < points.length; i++) {
-            Vector2 firstPoint = points[i];
-            Vector2 secondPoint = (Vector2) Utils.getNextElementInArray(points, i);
-            Vector2[] line = new Vector2[] { firstPoint, secondPoint };
-            lines.add(line);
-        }
+        List<Vector2[]> lines = CollisionManager.getShipLines(points);
 
         for (Asteroid asteroid : this.gameWorld.getAsteroids()) {
             float radius = asteroid.getRadius();

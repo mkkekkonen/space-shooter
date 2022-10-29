@@ -1,11 +1,9 @@
 package com.mkkekkonen.spaceshooter.math;
 
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.text.DecimalFormat;
 

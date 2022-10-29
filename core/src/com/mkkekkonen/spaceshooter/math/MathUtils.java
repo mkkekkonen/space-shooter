@@ -25,6 +25,13 @@ public class MathUtils {
         );
     }
 
+    public static Vector2 vecSub(Vector2 first, Vector2 second) {
+        return new Vector2(
+                first.x - second.x,
+                first.y - second.y
+        );
+    }
+
     public static Vector2 getSpriteWidthHeight(Texture texture, float spriteWidth) {
         float textureWidth = texture.getWidth();
         float textureHeight = texture.getHeight();
@@ -66,8 +73,8 @@ public class MathUtils {
             float circleRadius,
             boolean isLineSegment
     ) {
-        Vector2 adjustedStartPoint = lineStartPoint.sub(circleCenter);
-        Vector2 adjustedEndPoint = lineEndPoint.sub(circleCenter);
+        Vector2 adjustedStartPoint = MathUtils.vecSub(lineStartPoint, circleCenter);
+        Vector2 adjustedEndPoint = MathUtils.vecSub(lineEndPoint, circleCenter);
 
         float dx = adjustedEndPoint.x - adjustedStartPoint.x;
         float dy = adjustedEndPoint.y - adjustedStartPoint.y;
