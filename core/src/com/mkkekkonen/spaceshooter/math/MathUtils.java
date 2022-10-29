@@ -85,8 +85,8 @@ public class MathUtils {
             return emptyResult;
         }
 
-        Float[] xCoordinates = MathUtils.getIntersectionXCoordinates(dx, dy, D, discriminant, denominator);
-        Float[] yCoordinates = MathUtils.getIntersectionYCoordinates(dx, dy, D, discriminant, denominator);
+        Float[] xCoordinates = MathUtils.getCircleIntersectionXCoordinates(dx, dy, D, discriminant, denominator);
+        Float[] yCoordinates = MathUtils.getCircleIntersectionYCoordinates(dx, dy, D, discriminant, denominator);
 
         // discriminant equals zero -> tangent
         if (discriminant == 0) {
@@ -124,7 +124,7 @@ public class MathUtils {
         return emptyResult;
     }
 
-    private static Float[] getIntersectionXCoordinates(
+    private static Float[] getCircleIntersectionXCoordinates(
             float dx,
             float dy,
             float D,
@@ -141,7 +141,7 @@ public class MathUtils {
         return new Float[] { x1, x2 };
     }
 
-    private static Float[] getIntersectionYCoordinates(
+    private static Float[] getCircleIntersectionYCoordinates(
             float dx,
             float dy,
             float D,
