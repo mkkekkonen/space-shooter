@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mkkekkonen.spaceshooter.animation.Animation;
+import com.mkkekkonen.spaceshooter.animation.ExplosionAnimation;
 import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.interfaces.IPhysicsObject;
@@ -16,7 +17,7 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
     protected float width = 0, height = 0, scale = 1;
 
     protected Physics physics;
-    protected Animation animation;
+    protected ExplosionAnimation explosion;
 
     protected Vector2 origin = new Vector2();
     protected Texture texture;
@@ -27,6 +28,8 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
     public void update(float deltaTime) {
         if (this.state == State.NORMAL) {
             this.physics.update(deltaTime);
+        } else if (this.state == State.EXPLODING) {
+            this.explosion.update();
         }
     }
 
@@ -46,8 +49,10 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
                     this.scale,
                     this.physics.getRotationDeg()
             );
-        } else if (this.state == State.EXPLODING && this.animation != null) {
-            this.animation.draw(batch);
+        } else if (this.state == State.EXPLODING) {
+            if (this.explosion.isStarted()) {
+                this.explosion.draw(batch);
+            }
         }
     }
 
@@ -60,6 +65,10 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
         this.height = widthHeight.y;
     }
 
+    private void triggerAnimation() {
+        this.explosion.start();
+    }
+
     public float getX() {
         return this.physics.getPosition().x;
     }
@@ -70,6 +79,13 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
 
     public State getState() {
         return this.state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+        if (state == State.EXPLODING) {
+            this.triggerAnimation();
+        }
     }
 
     public Vector2 getPosition() {

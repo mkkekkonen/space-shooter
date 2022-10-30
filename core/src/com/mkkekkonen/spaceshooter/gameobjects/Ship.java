@@ -22,8 +22,6 @@ public class Ship extends AbstractGameObject {
     @Inject InputManager inputManager;
     @Inject ShapeRendererWrapper shapeRendererWrapper;
 
-    private ExplosionAnimation explosion;
-
     static final float speed = 5;
 
     @Inject
@@ -46,32 +44,24 @@ public class Ship extends AbstractGameObject {
             } else if (appType.equals(ApplicationType.Android)) {
                 this.handleTouchInput();
             }
-
-            super.update(deltaTime);
-        } else if (this.state == State.EXPLODING) {
-            this.explosion.update();
         }
+
+        super.update(deltaTime);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        if (this.state == State.NORMAL) {
-            super.draw(batch);
+        super.draw(batch);
 
-            if (DebugWrapper.DEBUG) {
-                batch.end();
+        if (this.state == State.NORMAL && DebugWrapper.DEBUG) {
+            batch.end();
 
 //                if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
-                Vector2[] points = this.getTriangleVectors();
-                this.shapeRendererWrapper.drawTriangle(points[0], points[1], points[2]);
+            Vector2[] points = this.getTriangleVectors();
+            this.shapeRendererWrapper.drawTriangle(points[0], points[1], points[2]);
 //                if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
 
-                batch.begin();
-            }
-        } else if (this.state == State.EXPLODING) {
-            if (this.explosion.isStarted()) {
-                this.explosion.draw(batch);
-            }
+            batch.begin();
         }
     }
 
@@ -128,17 +118,6 @@ public class Ship extends AbstractGameObject {
             this.physics.setVelocity(new Vector2(speed, 0));
         } else {
             this.physics.setVelocity(new Vector2());
-        }
-    }
-
-    private void triggerAnimation() {
-        this.explosion.start();
-    }
-
-    public void setState(State state) {
-        this.state = state;
-        if (state == State.EXPLODING) {
-            this.triggerAnimation();
         }
     }
 }

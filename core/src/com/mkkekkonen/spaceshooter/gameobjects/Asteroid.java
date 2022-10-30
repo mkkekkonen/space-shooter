@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.geometry.ShapeRendererWrapper;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
+import com.mkkekkonen.spaceshooter.interfaces.IExplosionFactory;
 import com.mkkekkonen.spaceshooter.interfaces.IPhysicsObject;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.math.RandomGenerator;
@@ -23,7 +24,11 @@ public class Asteroid extends AbstractGameObject {
     @Inject ShapeRendererWrapper shapeRendererWrapper;
 
     @Inject
-    Asteroid(ResourceManager resourceManager, RandomGenerator randomGenerator) {
+    Asteroid(
+            ResourceManager resourceManager,
+            RandomGenerator randomGenerator,
+            IExplosionFactory explosionFactory
+    ) {
         Vector2 initialPosition = new Vector2(
                 randomGenerator.getRandomFloat(25, Gdx.graphics.getWidth() - 25),
                 Gdx.graphics.getHeight() + 50
@@ -39,13 +44,15 @@ public class Asteroid extends AbstractGameObject {
         Texture texture = resourceManager.getSprite("roid" + randomGenerator.getRandomInt(1, 6 + 1));
         float width = randomGenerator.getRandomFloat(0.75f, 2.5f);
         this.initTexture(texture, width);
+
+        this.explosion = explosionFactory.create(this);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        if (this.state == State.NORMAL) {
-            super.draw(batch);
+        super.draw(batch);
 
+        if (this.state == State.NORMAL) {
             if (DebugWrapper.DEBUG) {
                 batch.end();
 
