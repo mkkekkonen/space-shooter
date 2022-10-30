@@ -35,6 +35,10 @@ public class ResourceManager {
         for (int i = 1; i <= 6; i++) {
             this.textures.put("roid" + i, this.loadTexture("roid" + i + ".png"));
         }
+
+        for (int i = 1; i <= 6; i++) {
+            this.textures.put("explosion" + i, this.loadTexture("explosion" + i + ".png"));
+        }
     }
 
     private Texture loadTexture(String path) {

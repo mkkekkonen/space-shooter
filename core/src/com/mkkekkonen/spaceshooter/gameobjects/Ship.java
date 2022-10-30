@@ -4,9 +4,11 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mkkekkonen.spaceshooter.animation.ExplosionAnimation;
 import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.geometry.ShapeRendererWrapper;
 import com.mkkekkonen.spaceshooter.input.InputManager;
+import com.mkkekkonen.spaceshooter.interfaces.IExplosionFactory;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 import com.mkkekkonen.spaceshooter.utils.DebugWrapper;
@@ -20,17 +22,18 @@ public class Ship extends AbstractGameObject {
     @Inject InputManager inputManager;
     @Inject ShapeRendererWrapper shapeRendererWrapper;
 
-    private boolean collided = false;
+    private ExplosionAnimation explosion;
 
     static final float speed = 5;
 
     @Inject
-    Ship(ResourceManager resourceManager) {
+    Ship(ResourceManager resourceManager, IExplosionFactory explosionFactory) {
         this.physics = new Physics(
                 Gdx.graphics.getWidth() / 2,
                 MathUtils.mToPx(4)
         );
         this.initTexture(resourceManager.getSprite("ship"),2);
+        this.explosion = explosionFactory.create(this);
     }
 
     @Override
@@ -45,22 +48,30 @@ public class Ship extends AbstractGameObject {
             }
 
             super.update(deltaTime);
+        } else if (this.state == State.EXPLODING) {
+            this.explosion.update();
         }
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        super.draw(batch);
+        if (this.state == State.NORMAL) {
+            super.draw(batch);
 
-        if (DebugWrapper.DEBUG) {
-            batch.end();
+            if (DebugWrapper.DEBUG) {
+                batch.end();
 
-            if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
-            Vector2[] points = this.getTriangleVectors();
-            this.shapeRendererWrapper.drawTriangle(points[0], points[1], points[2]);
-            if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
+//                if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
+                Vector2[] points = this.getTriangleVectors();
+                this.shapeRendererWrapper.drawTriangle(points[0], points[1], points[2]);
+//                if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
 
-            batch.begin();
+                batch.begin();
+            }
+        } else if (this.state == State.EXPLODING) {
+            if (this.explosion.isStarted()) {
+                this.explosion.draw(batch);
+            }
         }
     }
 
@@ -120,7 +131,14 @@ public class Ship extends AbstractGameObject {
         }
     }
 
-    public void setCollided(boolean collided) {
-        this.collided = collided;
+    private void triggerAnimation() {
+        this.explosion.start();
+    }
+
+    public void setState(State state) {
+        this.state = state;
+        if (state == State.EXPLODING) {
+            this.triggerAnimation();
+        }
     }
 }

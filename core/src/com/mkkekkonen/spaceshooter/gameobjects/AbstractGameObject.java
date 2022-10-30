@@ -68,6 +68,10 @@ public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
         return this.physics.getPosition().y;
     }
 
+    public State getState() {
+        return this.state;
+    }
+
     public Vector2 getPosition() {
         return this.physics.getPosition();
     }

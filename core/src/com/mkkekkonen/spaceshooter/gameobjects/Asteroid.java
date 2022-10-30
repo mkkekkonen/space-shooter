@@ -22,8 +22,6 @@ import dagger.Module;
 public class Asteroid extends AbstractGameObject {
     @Inject ShapeRendererWrapper shapeRendererWrapper;
 
-    private boolean collided = false;
-
     @Inject
     Asteroid(ResourceManager resourceManager, RandomGenerator randomGenerator) {
         Vector2 initialPosition = new Vector2(
@@ -45,19 +43,21 @@ public class Asteroid extends AbstractGameObject {
 
     @Override
     public void draw(SpriteBatch batch) {
-        super.draw(batch);
+        if (this.state == State.NORMAL) {
+            super.draw(batch);
 
-        if (DebugWrapper.DEBUG) {
-            batch.end();
+            if (DebugWrapper.DEBUG) {
+                batch.end();
 
-            if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
-            this.shapeRendererWrapper.drawCircle(
-                    new Vector2(this.getX(), this.getY()),
-                    this.width / 2
-            );
-            if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
+                //            if (this.collided) this.shapeRendererWrapper.setColor(1, 0, 0, 1);
+                this.shapeRendererWrapper.drawCircle(
+                        new Vector2(this.getX(), this.getY()),
+                        this.width / 2
+                );
+                //            if (this.collided) this.shapeRendererWrapper.setColor(0, 1, 0, 1);
 
-            batch.begin();
+                batch.begin();
+            }
         }
     }
 
@@ -65,7 +65,7 @@ public class Asteroid extends AbstractGameObject {
         return this.width / 2;
     }
 
-    public void setCollided() {
-        this.collided = true;
+    public void setState(State state) {
+        this.state = state;
     }
 }

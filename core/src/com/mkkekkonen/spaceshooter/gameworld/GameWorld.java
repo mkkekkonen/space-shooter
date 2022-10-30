@@ -10,6 +10,7 @@ import com.mkkekkonen.spaceshooter.gameobjects.Asteroid;
 import com.mkkekkonen.spaceshooter.gameobjects.Bullet;
 import com.mkkekkonen.spaceshooter.gameobjects.Ship;
 import com.mkkekkonen.spaceshooter.gameobjects.ShootingBar;
+import com.mkkekkonen.spaceshooter.gameobjects.State;
 import com.mkkekkonen.spaceshooter.interfaces.IBulletFactory;
 import com.mkkekkonen.spaceshooter.math.RandomGenerator;
 
@@ -75,10 +76,11 @@ public class GameWorld {
 
             float gameObjectY = gameObject.getY();
 
-            if (
-                    (direction.equals(Direction.UP) && gameObjectY > threshold)
-                    || (direction.equals(Direction.DOWN) && gameObjectY < threshold)
-            ) {
+            boolean upperThresholdReached = direction.equals(Direction.UP) && gameObjectY > threshold;
+            boolean lowerThresholdReached = direction.equals(Direction.DOWN) && gameObjectY < threshold;
+            boolean dispose = gameObject.getState() == State.DISPOSABLE;
+
+            if (upperThresholdReached || lowerThresholdReached || dispose) {
                 gameObjectList.remove(i);
                 continue;
             }

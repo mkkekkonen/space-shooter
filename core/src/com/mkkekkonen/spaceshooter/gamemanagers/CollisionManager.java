@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mkkekkonen.spaceshooter.gameobjects.Asteroid;
 import com.mkkekkonen.spaceshooter.gameobjects.Bullet;
 import com.mkkekkonen.spaceshooter.gameobjects.Ship;
+import com.mkkekkonen.spaceshooter.gameobjects.State;
 import com.mkkekkonen.spaceshooter.gameworld.GameWorld;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.utils.Utils;
@@ -49,7 +50,7 @@ public class CollisionManager {
                 );
 
                 if (distance < asteroid.getRadius()) {
-                    asteroid.setCollided();
+                    asteroid.setState(State.EXPLODING);
                 }
             }
         }
@@ -75,7 +76,8 @@ public class CollisionManager {
                         true
                 );
                 if (intersection.length > 0) {
-                    ship.setCollided(true);
+                    ship.setState(State.EXPLODING);
+                    asteroid.setState(State.DISPOSABLE);
                 }
             }
         }

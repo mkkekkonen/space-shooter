@@ -57,7 +57,7 @@ public class ShootingManager {
 
         if (touching) {
             this.time += Gdx.graphics.getDeltaTime();
-        } else if (!touching && this.time > 0) {
+        } else if (this.time > 0) {
             this.time = 0;
         }
 

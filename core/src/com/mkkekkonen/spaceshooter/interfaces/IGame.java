@@ -1,6 +1,6 @@
 package com.mkkekkonen.spaceshooter.interfaces;
 
-import com.mkkekkonen.spaceshooter.animation.Animation;
+import com.mkkekkonen.spaceshooter.animation.ExplosionAnimation;
 import com.mkkekkonen.spaceshooter.game.Game;
 import com.mkkekkonen.spaceshooter.gameobjects.Asteroid;
 import com.mkkekkonen.spaceshooter.gameobjects.Bullet;
@@ -18,7 +18,7 @@ import dagger.Component;
                 Asteroid.class,
                 ShootingBar.class,
                 Bullet.class,
-                Animation.class
+                ExplosionAnimation.class
         }
 )
 public interface IGame {
