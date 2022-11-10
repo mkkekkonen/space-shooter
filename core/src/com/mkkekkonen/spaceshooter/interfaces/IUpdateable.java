@@ -1,5 +1,5 @@
 package com.mkkekkonen.spaceshooter.interfaces;
 
-public interface IPhysicsObject {
+public interface IPhysics {
     void update(float deltaTime);
 }
