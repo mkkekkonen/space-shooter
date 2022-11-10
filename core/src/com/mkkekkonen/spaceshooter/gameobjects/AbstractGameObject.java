@@ -4,16 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mkkekkonen.spaceshooter.animation.Animation;
 import com.mkkekkonen.spaceshooter.animation.ExplosionAnimation;
 import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
-import com.mkkekkonen.spaceshooter.interfaces.IPhysicsObject;
+import com.mkkekkonen.spaceshooter.interfaces.IUpdateable;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 
-import javax.inject.Inject;
-
-public abstract class AbstractGameObject implements IDrawable, IPhysicsObject {
+public abstract class AbstractGameObject implements IDrawable, IUpdateable {
     protected float width = 0, height = 0, scale = 1;
 
     protected Physics physics;

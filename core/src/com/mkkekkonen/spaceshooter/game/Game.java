@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mkkekkonen.spaceshooter.gamemanagers.CollisionManager;
+import com.mkkekkonen.spaceshooter.gamemanagers.GameStateManager;
 import com.mkkekkonen.spaceshooter.gamemanagers.ShootingManager;
 import com.mkkekkonen.spaceshooter.gameworld.GameWorld;
 import com.mkkekkonen.spaceshooter.input.InputManager;
@@ -15,24 +16,18 @@ import javax.inject.Inject;
 
 public class Game
 {
-    @Inject InputManager inputManager;
+    @Inject GameStateManager gameStateManager;
     @Inject ResourceManager resourceManager;
-    @Inject ShootingManager shootingManager;
-    @Inject CollisionManager collisionManager;
-    @Inject GameWorld gameWorld;
 
     @Inject
     Game() {}
 
     public void update() {
-        this.inputManager.getInput();
-        this.shootingManager.update();
-        this.collisionManager.update();
-        this.gameWorld.update();
+        this.gameStateManager.update(Gdx.graphics.getDeltaTime());
     }
 
     public void render(SpriteBatch batch) {
-        this.gameWorld.render(batch);
+        this.gameStateManager.draw(batch);
     }
 
     public void dispose() {
