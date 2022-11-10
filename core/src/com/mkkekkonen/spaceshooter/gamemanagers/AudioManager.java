@@ -21,13 +21,16 @@ public class AudioManager {
             this.currentTrack.stop();
         }
 
-        if (gameState.equals(GameState.GAME_PLAYING)) {
+        if (gameState.equals(GameState.MENU)) {
+            this.playMusic("menu");
+        } else if (gameState.equals(GameState.GAME_PLAYING)) {
             this.playMusic("level");
         }
     }
 
     private void playMusic(String key) {
         this.currentTrack = this.resourceManager.getMusicTrack(key);
+        this.currentTrack.setLooping(true);
         this.currentTrack.play();
     }
 }

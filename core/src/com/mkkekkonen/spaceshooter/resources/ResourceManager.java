@@ -3,7 +3,10 @@ package com.mkkekkonen.spaceshooter.resources;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +20,9 @@ import dagger.Module;
 public class ResourceManager {
     private Map<String, Texture> textures;
     private Map<String, Music> music;
+    private Map<String, BitmapFont> fonts;
+
+    private FreeTypeFontGenerator fontGenerator;
 
     @Inject
     ResourceManager() {
@@ -27,11 +33,18 @@ public class ResourceManager {
         for (String key : this.textures.keySet()) {
             this.textures.get(key).dispose();
         }
+
+        for (String key : this.music.keySet()) {
+            this.music.get(key).dispose();
+        }
+
+        this.fontGenerator.dispose();
     }
 
     public void loadResources() {
         this.loadTextures();
         this.loadMusic();
+        this.loadFonts();
     }
 
     private void loadTextures() {
@@ -55,6 +68,21 @@ public class ResourceManager {
         this.music.put("level", this.loadMusicFile("level.wav"));
     }
 
+    private void loadFonts() {
+        this.fonts = new HashMap<>();
+
+        this.fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SatellaRegular.ttf"));
+
+        FreeTypeFontGenerator.FreeTypeFontParameter menuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        menuParameter.size = 34;
+        menuParameter.color = Color.SALMON;
+        menuParameter.borderWidth = 2;
+        menuParameter.borderColor = Color.WHITE;
+
+        BitmapFont menuFont = this.fontGenerator.generateFont(menuParameter);
+        this.fonts.put("menu", menuFont);
+    }
+
     private Texture loadTexture(String path) {
         return new Texture(Gdx.files.internal("sprites/" + path));
     }
@@ -69,5 +97,9 @@ public class ResourceManager {
 
     public Music getMusicTrack(String key) {
         return this.music.get(key);
+    }
+
+    public BitmapFont getFont(String key) {
+        return this.fonts.get(key);
     }
 }

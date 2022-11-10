@@ -21,6 +21,7 @@ public class GamePlayingState extends AbstractGameState {
     @Inject
     GamePlayingState() {}
 
+    @Override
     public void update(float deltaTime) {
         this.inputManager.getInput();
         this.shootingManager.update();
@@ -28,6 +29,7 @@ public class GamePlayingState extends AbstractGameState {
         this.gameWorld.update();
     }
 
+    @Override
     public void draw(SpriteBatch batch) {
         this.gameWorld.render(batch);
     }

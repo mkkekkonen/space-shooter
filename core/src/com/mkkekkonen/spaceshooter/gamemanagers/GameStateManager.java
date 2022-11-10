@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mkkekkonen.spaceshooter.enums.GameState;
 import com.mkkekkonen.spaceshooter.gamestates.AbstractGameState;
 import com.mkkekkonen.spaceshooter.gamestates.GamePlayingState;
+import com.mkkekkonen.spaceshooter.gamestates.MenuState;
 import com.mkkekkonen.spaceshooter.input.InputManager;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.interfaces.IUpdateable;
@@ -28,14 +29,16 @@ public class GameStateManager implements IDrawable, IUpdateable {
     @Inject
     public GameStateManager(
             GamePlayingState gamePlayingState,
+            MenuState menuState,
             AudioManager audioManager
     ) {
         this.gameStates = new HashMap<>();
+        this.gameStates.put(GameState.MENU, menuState);
         this.gameStates.put(GameState.GAME_PLAYING, gamePlayingState);
-        this.currentGameState = GameState.GAME_PLAYING;
+        this.currentGameState = GameState.MENU;
 
         this.audioManager = audioManager;
-        this.audioManager.changeMusic(GameState.GAME_PLAYING);
+        this.audioManager.changeMusic(GameState.MENU);
     }
 
     public void update(float deltaTime) {
