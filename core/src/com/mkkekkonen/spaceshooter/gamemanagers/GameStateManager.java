@@ -8,6 +8,7 @@ import com.mkkekkonen.spaceshooter.gamestates.GamePlayingState;
 import com.mkkekkonen.spaceshooter.gamestates.MenuState;
 import com.mkkekkonen.spaceshooter.input.InputManager;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
+import com.mkkekkonen.spaceshooter.interfaces.IGameStateFactory;
 import com.mkkekkonen.spaceshooter.interfaces.IUpdateable;
 
 import java.util.HashMap;
@@ -29,11 +30,11 @@ public class GameStateManager implements IDrawable, IUpdateable {
     @Inject
     public GameStateManager(
             GamePlayingState gamePlayingState,
-            MenuState menuState,
-            AudioManager audioManager
+            AudioManager audioManager,
+            IGameStateFactory stateFactory
     ) {
         this.gameStates = new HashMap<>();
-        this.gameStates.put(GameState.MENU, menuState);
+        this.gameStates.put(GameState.MENU, stateFactory.createMenuState(this));
         this.gameStates.put(GameState.GAME_PLAYING, gamePlayingState);
         this.currentGameState = GameState.MENU;
 
@@ -48,5 +49,14 @@ public class GameStateManager implements IDrawable, IUpdateable {
 
     public void draw(SpriteBatch batch) {
         this.gameStates.get(this.currentGameState).draw(batch);
+    }
+
+    public void changeGameState(GameState newState) {
+        if (this.currentGameState.equals(newState)) {
+            return;
+        }
+
+        this.currentGameState = newState;
+        this.audioManager.changeMusic(newState);
     }
 }

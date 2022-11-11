@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.mkkekkonen.spaceshooter.utils.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,10 @@ public class ResourceManager {
 
         for (String key : this.music.keySet()) {
             this.music.get(key).dispose();
+        }
+
+        for (String key : this.fonts.keySet()) {
+            this.fonts.get(key).dispose();
         }
 
         this.fontGenerator.dispose();
@@ -73,14 +78,8 @@ public class ResourceManager {
 
         this.fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SatellaRegular.ttf"));
 
-        FreeTypeFontGenerator.FreeTypeFontParameter menuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        menuParameter.size = 34;
-        menuParameter.color = Color.SALMON;
-        menuParameter.borderWidth = 2;
-        menuParameter.borderColor = Color.WHITE;
-
-        BitmapFont menuFont = this.fontGenerator.generateFont(menuParameter);
-        this.fonts.put("menu", menuFont);
+        this.fonts.put("menu", this.generateFont(Constants.MENU_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
+        this.fonts.put("small", this.generateFont(25, Color.SALMON, 2, Color.WHITE));
     }
 
     private Texture loadTexture(String path) {
@@ -89,6 +88,21 @@ public class ResourceManager {
 
     private Music loadMusicFile(String path) {
         return Gdx.audio.newMusic(Gdx.files.internal("music/" + path));
+    }
+
+    private BitmapFont generateFont(
+            int size,
+            Color color,
+            int borderWidth,
+            Color borderColor
+    ) {
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        parameter.color = color;
+        parameter.borderWidth = borderWidth;
+        parameter.borderColor = borderColor;
+
+        return this.fontGenerator.generateFont(parameter);
     }
 
     public Texture getSprite(String key) {

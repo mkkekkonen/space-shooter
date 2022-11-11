@@ -15,6 +15,7 @@ public class InputManager {
     private boolean shooting = false;
 
     private Vector2 touchLocation;
+    private Vector2 clickLocation;
 
     @Inject
     InputManager() {}
@@ -24,6 +25,7 @@ public class InputManager {
 
         if (appType.equals(ApplicationType.Desktop)) {
             this.getKeyboardInput();
+            this.getMouseInput();
         } else if (appType.equals(ApplicationType.Android)) {
             this.getTouchInput();
         }
@@ -57,11 +59,26 @@ public class InputManager {
         if (Gdx.input.isTouched()) {
             this.touchLocation = new Vector2(
                     Gdx.input.getX(),
-                    Gdx.graphics.getHeight() - Gdx.input.getY()
+                    this.getTouchY()
             );
         } else {
             this.touchLocation = null;
         }
+    }
+
+    private void getMouseInput() {
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            this.clickLocation = new Vector2(
+                    Gdx.input.getX(),
+                    this.getTouchY()
+            );
+        } else {
+            this.clickLocation = null;
+        }
+    }
+
+    private float getTouchY() {
+        return Gdx.graphics.getHeight() - Gdx.input.getY();
     }
 
     public boolean isKeyLeftPressed() {
@@ -74,6 +91,10 @@ public class InputManager {
 
     public Vector2 getTouchLocation() {
         return touchLocation;
+    }
+
+    public Vector2 getClickLocation() {
+        return clickLocation;
     }
 
     public boolean isShooting() {

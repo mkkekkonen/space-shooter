@@ -13,6 +13,8 @@ public class AudioManager {
 
     private Music currentTrack;
 
+    private boolean mute = false;
+
     @Inject
     AudioManager() {}
 
@@ -28,9 +30,27 @@ public class AudioManager {
         }
     }
 
+    public void toggleAudio() {
+        if (this.mute) {
+            this.mute = false;
+            this.currentTrack.play();
+        } else {
+            this.mute = true;
+            this.currentTrack.stop();
+        }
+    }
+
     private void playMusic(String key) {
+        if (this.mute) {
+            return;
+        }
+
         this.currentTrack = this.resourceManager.getMusicTrack(key);
         this.currentTrack.setLooping(true);
         this.currentTrack.play();
+    }
+
+    public boolean isMuted() {
+        return this.mute;
     }
 }
