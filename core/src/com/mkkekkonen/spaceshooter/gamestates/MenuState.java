@@ -1,5 +1,6 @@
 package com.mkkekkonen.spaceshooter.gamestates;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,13 +50,20 @@ public class MenuState extends AbstractGameState {
     public void update(float deltaTime) {
         this.inputManager.getInput();
 
-        Vector2 clickLocation = this.inputManager.getClickLocation();
-        if (clickLocation != null) {
-            if (clickLocation.y > this.startGameBottomY
-                    && clickLocation.y < this.startGameTopY) {
+        Vector2 inputLocation = null;
+        Application.ApplicationType appType = Gdx.app.getType();
+        if (appType.equals(Application.ApplicationType.Desktop)) {
+            inputLocation = this.inputManager.getClickLocation();
+        } else if (appType.equals(Application.ApplicationType.Android)) {
+            inputLocation = this.inputManager.getTouchLocation();
+        }
+
+        if (inputLocation != null) {
+            if (inputLocation.y > this.startGameBottomY
+                    && inputLocation.y < this.startGameTopY) {
                 stateManager.changeGameState(GameState.GAME_PLAYING);
-            } else if (clickLocation.y > this.toggleSoundBottomY
-                    && clickLocation.y < this.toggleSoundTopY) {
+            } else if (inputLocation.y > this.toggleSoundBottomY
+                    && inputLocation.y < this.toggleSoundTopY) {
                 this.audioManager.toggleAudio();
             }
         }
