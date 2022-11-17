@@ -10,6 +10,7 @@ import com.mkkekkonen.spaceshooter.gamemanagers.GameStateManager;
 import com.mkkekkonen.spaceshooter.input.InputManager;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 import com.mkkekkonen.spaceshooter.utils.Constants;
+import com.sun.org.apache.bcel.internal.Const;
 
 import javax.inject.Inject;
 
@@ -27,6 +28,15 @@ public class MenuState extends AbstractGameState {
 
     private GameStateManager stateManager;
 
+    private final float pad = Gdx.graphics.getHeight() / 30;
+    private final float padSmall = Gdx.graphics.getHeight() / 50;
+    private final float startGameTopY = this.getY(this.pad);
+    private final float startGameBottomY = this.startGameTopY - Constants.MENU_FONT_SIZE;
+    private final float highScoresTopY = this.getY(this.pad + this.padSmall + Constants.MENU_FONT_SIZE);
+    private final float highScoresBottomY = this.highScoresTopY - Constants.MENU_FONT_SIZE;
+    private final float toggleSoundTopY = this.pad + Constants.SMALL_FONT_SIZE;
+    private final float toggleSoundBottomY = this.pad;
+
     @AssistedInject
     MenuState(ResourceManager resourceManager, @Assisted GameStateManager stateManager) {
         this.menuFont = resourceManager.getFont("menu");
@@ -41,11 +51,11 @@ public class MenuState extends AbstractGameState {
 
         Vector2 clickLocation = this.inputManager.getClickLocation();
         if (clickLocation != null) {
-            float startGameTopY = this.getY(50);
-            if (clickLocation.y > startGameTopY - Constants.MENU_FONT_SIZE
-                    && clickLocation.y < startGameTopY) {
+            if (clickLocation.y > this.startGameBottomY
+                    && clickLocation.y < this.startGameTopY) {
                 stateManager.changeGameState(GameState.GAME_PLAYING);
-            } else if (clickLocation.y > 50 && clickLocation.y < 75) {
+            } else if (clickLocation.y > this.toggleSoundBottomY
+                    && clickLocation.y < this.toggleSoundTopY) {
                 this.audioManager.toggleAudio();
             }
         }
@@ -56,22 +66,22 @@ public class MenuState extends AbstractGameState {
         this.menuFont.draw(
                 batch,
                 "New Game",
-                50,
-                this.getY(50)
+                this.pad,
+                this.startGameTopY
         );
 
         this.menuFont.draw(
                 batch,
                 "High Scores",
-                50,
-                this.getY(100)
+                this.pad,
+                this.highScoresTopY
         );
 
         this.smallFont.draw(
                 batch,
                 this.audioManager.isMuted() ? "(Sound Off)" : "(Sound On)",
-                50,
-                75
+                this.pad,
+                this.toggleSoundTopY
         );
     }
 

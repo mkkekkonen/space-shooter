@@ -79,7 +79,7 @@ public class ResourceManager {
         this.fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SatellaRegular.ttf"));
 
         this.fonts.put("menu", this.generateFont(Constants.MENU_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
-        this.fonts.put("small", this.generateFont(25, Color.SALMON, 2, Color.WHITE));
+        this.fonts.put("small", this.generateFont(Constants.SMALL_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
     }
 
     private Texture loadTexture(String path) {

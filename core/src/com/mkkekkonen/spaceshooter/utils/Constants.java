@@ -5,7 +5,8 @@ import com.mkkekkonen.spaceshooter.math.MathUtils;
 
 public class Constants {
     public static final int
-            MENU_FONT_SIZE = 34;
+            MENU_FONT_SIZE = Gdx.graphics.getHeight() / 15,
+            SMALL_FONT_SIZE = Gdx.graphics.getHeight() / 20;
 
     public static final float
         PX_PER_M = Gdx.graphics.getWidth() / 20,
