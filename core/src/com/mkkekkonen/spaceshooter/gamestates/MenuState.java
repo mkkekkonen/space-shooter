@@ -50,20 +50,14 @@ public class MenuState extends AbstractGameState {
     public void update(float deltaTime) {
         this.inputManager.getInput();
 
-        Vector2 inputLocation = null;
-        Application.ApplicationType appType = Gdx.app.getType();
-        if (appType.equals(Application.ApplicationType.Desktop)) {
-            inputLocation = this.inputManager.getClickLocation();
-        } else if (appType.equals(Application.ApplicationType.Android)) {
-            inputLocation = this.inputManager.getTouchLocation();
-        }
+        Vector2 clickLocation = this.inputManager.getClickLocation();
 
-        if (inputLocation != null) {
-            if (inputLocation.y > this.startGameBottomY
-                    && inputLocation.y < this.startGameTopY) {
+        if (clickLocation != null) {
+            if (clickLocation.y > this.startGameBottomY
+                    && clickLocation.y < this.startGameTopY) {
                 stateManager.changeGameState(GameState.GAME_PLAYING);
-            } else if (inputLocation.y > this.toggleSoundBottomY
-                    && inputLocation.y < this.toggleSoundTopY) {
+            } else if (clickLocation.y > this.toggleSoundBottomY
+                    && clickLocation.y < this.toggleSoundTopY) {
                 this.audioManager.toggleAudio();
             }
         }

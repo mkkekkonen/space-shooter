@@ -9,6 +9,8 @@ import com.mkkekkonen.spaceshooter.gameobjects.components.Physics;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.interfaces.IUpdateable;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
+import com.mkkekkonen.spaceshooter.utils.TextureWrapper;
+import com.mkkekkonen.spaceshooter.utils.Utils;
 
 public abstract class AbstractGameObject implements IDrawable, IUpdateable {
     protected float width = 0, height = 0, scale = 1;
@@ -54,10 +56,12 @@ public abstract class AbstractGameObject implements IDrawable, IUpdateable {
     }
 
     protected void initTexture(Texture texture, float width) {
-        this.texture = texture;
-        this.textureRegion = new TextureRegion(texture);
+        TextureWrapper textureWrapper = Utils.initTexture(texture, width);
 
-        Vector2 widthHeight = MathUtils.getSpriteWidthHeight(this.texture, width);
+        this.texture = textureWrapper.getTexture();
+        this.textureRegion = textureWrapper.getTextureRegion();
+
+        Vector2 widthHeight = textureWrapper.getWidthHeight();
         this.width = widthHeight.x;
         this.height = widthHeight.y;
     }

@@ -56,29 +56,29 @@ public class InputManager {
     }
 
     private void getTouchInput() {
-        if (Gdx.input.isTouched()) {
-            this.touchLocation = new Vector2(
-                    Gdx.input.getX(),
-                    this.getTouchY()
-            );
-        } else {
-            this.touchLocation = null;
-        }
+        this.touchLocation = this.getConditionalInputLocation(Gdx.input.isTouched());
+        this.clickLocation = this.getConditionalInputLocation(Gdx.input.justTouched());
     }
 
     private void getMouseInput() {
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            this.clickLocation = new Vector2(
-                    Gdx.input.getX(),
-                    this.getTouchY()
-            );
-        } else {
-            this.clickLocation = null;
-        }
+        this.clickLocation = this.getConditionalInputLocation(
+                Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)
+        );
     }
 
     private float getTouchY() {
         return Gdx.graphics.getHeight() - Gdx.input.getY();
+    }
+
+    private Vector2 getInputLocation() {
+        return new Vector2(
+                Gdx.input.getX(),
+                this.getTouchY()
+        );
+    }
+
+    private Vector2 getConditionalInputLocation(boolean condition) {
+        return condition ? this.getInputLocation() : null;
     }
 
     public boolean isKeyLeftPressed() {

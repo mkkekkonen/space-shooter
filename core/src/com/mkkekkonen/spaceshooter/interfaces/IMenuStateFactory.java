@@ -6,6 +6,6 @@ import com.mkkekkonen.spaceshooter.gamestates.MenuState;
 import dagger.assisted.AssistedFactory;
 
 @AssistedFactory
-public interface IGameStateFactory {
+public interface IMenuStateFactory {
     MenuState createMenuState(GameStateManager stateManager);
 }
