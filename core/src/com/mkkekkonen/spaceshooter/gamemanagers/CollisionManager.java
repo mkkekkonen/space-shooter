@@ -19,6 +19,7 @@ import javax.inject.Singleton;
 public class CollisionManager {
     @Inject GameWorld gameWorld;
     @Inject AudioManager audioManager;
+    @Inject ScoreManager scoreManager;
 
     @Inject
     CollisionManager() {}
@@ -53,6 +54,7 @@ public class CollisionManager {
                         && !asteroid.getState().equals(State.EXPLODING)) {
                     asteroid.setState(State.EXPLODING);
                     this.audioManager.playExplosionSound();
+                    this.scoreManager.addToScore(30);
                 }
             }
         }

@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 @Singleton
 public class GameStateManager implements IDrawable, IUpdateable {
     @Inject InputManager inputManager;
+    @Inject ScoreManager scoreManager;
 
     private AudioManager audioManager;
 
@@ -52,6 +53,10 @@ public class GameStateManager implements IDrawable, IUpdateable {
     public void changeGameState(GameState newState) {
         if (this.currentGameState.equals(newState)) {
             return;
+        }
+
+        if (newState.equals(GameState.GAME_PLAYING)) {
+            this.scoreManager.resetScore();
         }
 
         this.currentGameState = newState;

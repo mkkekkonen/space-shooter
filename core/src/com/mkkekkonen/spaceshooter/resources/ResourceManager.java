@@ -96,6 +96,7 @@ public class ResourceManager {
 
         this.fonts.put("menu", this.generateFont(Constants.MENU_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
         this.fonts.put("small", this.generateFont(Constants.SMALL_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
+        this.fonts.put("score", this.generateFont(Constants.SCORE_FONT_SIZE, Color.SALMON, 1, Color.WHITE));
     }
 
     private Texture loadTexture(String path) {

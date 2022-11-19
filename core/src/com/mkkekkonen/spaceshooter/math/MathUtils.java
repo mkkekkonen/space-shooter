@@ -1,5 +1,6 @@
 package com.mkkekkonen.spaceshooter.math;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mkkekkonen.spaceshooter.utils.Constants;
@@ -9,6 +10,14 @@ public class MathUtils {
 
     public static float mToPx(float meters) {
         return meters * Constants.PX_PER_M;
+    }
+
+    public static float invertY(float distanceFromTop) {
+        return Gdx.graphics.getHeight() - distanceFromTop;
+    }
+
+    public static float scaleHeight(float divisor) {
+        return Gdx.graphics.getHeight() / divisor;
     }
 
     public static Vector2 vecMToPx(Vector2 vector) {

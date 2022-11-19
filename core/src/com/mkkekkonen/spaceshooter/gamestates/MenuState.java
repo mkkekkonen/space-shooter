@@ -9,6 +9,7 @@ import com.mkkekkonen.spaceshooter.enums.GameState;
 import com.mkkekkonen.spaceshooter.gamemanagers.AudioManager;
 import com.mkkekkonen.spaceshooter.gamemanagers.GameStateManager;
 import com.mkkekkonen.spaceshooter.input.InputManager;
+import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 import com.mkkekkonen.spaceshooter.utils.Constants;
 import com.sun.org.apache.bcel.internal.Const;
@@ -31,9 +32,9 @@ public class MenuState extends AbstractGameState {
 
     private final float pad = Gdx.graphics.getHeight() / 30;
     private final float padSmall = Gdx.graphics.getHeight() / 50;
-    private final float startGameTopY = this.getY(this.pad);
+    private final float startGameTopY = MathUtils.invertY(this.pad);
     private final float startGameBottomY = this.startGameTopY - Constants.MENU_FONT_SIZE;
-    private final float highScoresTopY = this.getY(this.pad + this.padSmall + Constants.MENU_FONT_SIZE);
+    private final float highScoresTopY = MathUtils.invertY(this.pad + this.padSmall + Constants.MENU_FONT_SIZE);
     private final float highScoresBottomY = this.highScoresTopY - Constants.MENU_FONT_SIZE;
     private final float toggleSoundTopY = this.pad + Constants.SMALL_FONT_SIZE;
     private final float toggleSoundBottomY = this.pad;
@@ -85,9 +86,5 @@ public class MenuState extends AbstractGameState {
                 this.pad,
                 this.toggleSoundTopY
         );
-    }
-
-    private float getY(float distance) {
-        return Gdx.graphics.getHeight() - distance;
     }
 }
