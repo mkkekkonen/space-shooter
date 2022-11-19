@@ -2,6 +2,7 @@ package com.mkkekkonen.spaceshooter.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,6 +22,7 @@ import dagger.Module;
 public class ResourceManager {
     private Map<String, Texture> textures;
     private Map<String, Music> music;
+    private Map<String, Sound> sounds;
     private Map<String, BitmapFont> fonts;
 
     private FreeTypeFontGenerator fontGenerator;
@@ -43,12 +45,17 @@ public class ResourceManager {
             this.fonts.get(key).dispose();
         }
 
+        for (String key : this.sounds.keySet()) {
+            this.sounds.get(key).dispose();
+        }
+
         this.fontGenerator.dispose();
     }
 
     public void loadResources() {
         this.loadTextures();
         this.loadMusic();
+        this.loadSounds();
         this.loadFonts();
     }
 
@@ -72,6 +79,14 @@ public class ResourceManager {
         this.music = new HashMap<>();
         this.music.put("menu", this.loadMusicFile("menu.wav"));
         this.music.put("level", this.loadMusicFile("level.wav"));
+    }
+
+    private void loadSounds() {
+        this.sounds = new HashMap<>();
+        this.sounds.put(
+                "explosion",
+                Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"))
+        );
     }
 
     private void loadFonts() {
@@ -112,6 +127,10 @@ public class ResourceManager {
 
     public Music getMusicTrack(String key) {
         return this.music.get(key);
+    }
+
+    public Sound getSound(String key) {
+        return this.sounds.get(key);
     }
 
     public BitmapFont getFont(String key) {

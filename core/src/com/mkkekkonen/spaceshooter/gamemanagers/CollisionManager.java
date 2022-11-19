@@ -18,6 +18,7 @@ import javax.inject.Singleton;
 @Singleton
 public class CollisionManager {
     @Inject GameWorld gameWorld;
+    @Inject AudioManager audioManager;
 
     @Inject
     CollisionManager() {}
@@ -30,7 +31,6 @@ public class CollisionManager {
     public static List<Vector2[]> getShipLines(Vector2[] points) {
         List<Vector2[]> lines = new ArrayList<>();
 
-        // prepopulate lines
         for (int i = 0; i < points.length; i++) {
             Vector2 firstPoint = points[i];
             Vector2 secondPoint = (Vector2) Utils.getNextElementInArray(points, i);
@@ -49,8 +49,10 @@ public class CollisionManager {
                         asteroid.getPosition()
                 );
 
-                if (distance < asteroid.getRadius()) {
+                if (distance < asteroid.getRadius()
+                        && !asteroid.getState().equals(State.EXPLODING)) {
                     asteroid.setState(State.EXPLODING);
+                    this.audioManager.playExplosionSound();
                 }
             }
         }
@@ -75,9 +77,10 @@ public class CollisionManager {
                         radius,
                         true
                 );
-                if (intersection.length > 0) {
+                if (intersection.length > 0 && !ship.getState().equals(State.EXPLODING)) {
                     ship.setState(State.EXPLODING);
                     asteroid.setState(State.DISPOSABLE);
+                    this.audioManager.playExplosionSound();
                 }
             }
         }

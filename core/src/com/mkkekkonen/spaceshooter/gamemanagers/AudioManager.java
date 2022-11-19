@@ -1,6 +1,7 @@
 package com.mkkekkonen.spaceshooter.gamemanagers;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.mkkekkonen.spaceshooter.enums.GameState;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 
@@ -9,14 +10,19 @@ import javax.inject.Singleton;
 
 @Singleton
 public class AudioManager {
-    @Inject ResourceManager resourceManager;
+    private ResourceManager resourceManager;
 
     private Music currentTrack;
+    private Sound explosionSound;
 
     private boolean mute = false;
 
     @Inject
-    AudioManager() {}
+    AudioManager(ResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
+
+        this.explosionSound = resourceManager.getSound("explosion");
+    }
 
     public void changeMusic(GameState gameState) {
         if (this.currentTrack != null) {
@@ -48,6 +54,10 @@ public class AudioManager {
         this.currentTrack = this.resourceManager.getMusicTrack(key);
         this.currentTrack.setLooping(true);
         this.currentTrack.play();
+    }
+
+    public void playExplosionSound() {
+        this.explosionSound.play();
     }
 
     public boolean isMuted() {
