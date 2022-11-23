@@ -13,6 +13,9 @@ public class Constants {
         PX_PER_M = Gdx.graphics.getWidth() / 20,
         SHOOTING_BAR_Y = MathUtils.mToPx(20);
 
+    public static final String
+        HIGH_SCORES_FILE_NAME = "highscores.txt";
+
     private static int scaleHeight(int divisor) {
         return (int) MathUtils.scaleHeight(divisor);
     }

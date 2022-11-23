@@ -57,6 +57,10 @@ public class AudioManager {
     }
 
     public void playExplosionSound() {
+        if (this.mute) {
+            return;
+        }
+
         this.explosionSound.play();
     }
 

@@ -6,6 +6,7 @@ import com.mkkekkonen.spaceshooter.gameobjects.Bullet;
 import com.mkkekkonen.spaceshooter.gameobjects.Ship;
 import com.mkkekkonen.spaceshooter.gameobjects.State;
 import com.mkkekkonen.spaceshooter.gameworld.GameWorld;
+import com.mkkekkonen.spaceshooter.highscores.HighScoreManager;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.utils.Utils;
 
@@ -20,6 +21,7 @@ public class CollisionManager {
     @Inject GameWorld gameWorld;
     @Inject AudioManager audioManager;
     @Inject ScoreManager scoreManager;
+    @Inject HighScoreManager highScoreManager;
 
     @Inject
     CollisionManager() {}
@@ -83,6 +85,7 @@ public class CollisionManager {
                     ship.setState(State.EXPLODING);
                     asteroid.setState(State.DISPOSABLE);
                     this.audioManager.playExplosionSound();
+                    this.highScoreManager.openEnterNameDialog();
                 }
             }
         }
