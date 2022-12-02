@@ -1,5 +1,6 @@
 package com.mkkekkonen.spaceshooter.animation;
 
+import com.badlogic.gdx.Gdx;
 import com.mkkekkonen.spaceshooter.gameobjects.AbstractGameObject;
 import com.mkkekkonen.spaceshooter.math.RandomGenerator;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
@@ -30,7 +31,7 @@ public class ExplosionAnimation extends Animation {
                         "explosion6"
                 },
                 0.3f,
-                1f,
+                Gdx.graphics.getWidth() / 480f,
                 true
         );
         this.started = true;
