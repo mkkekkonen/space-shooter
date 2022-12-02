@@ -20,6 +20,10 @@ public class MathUtils {
         return Gdx.graphics.getHeight() / divisor;
     }
 
+    public static float scaleWidth(float divisor) {
+        return Gdx.graphics.getWidth() / divisor;
+    }
+
     public static Vector2 vecMToPx(Vector2 vector) {
         return new Vector2(
                 MathUtils.mToPx(vector.x),

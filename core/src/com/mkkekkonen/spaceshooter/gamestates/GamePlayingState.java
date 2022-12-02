@@ -9,11 +9,14 @@ import com.mkkekkonen.spaceshooter.gamemanagers.ScoreManager;
 import com.mkkekkonen.spaceshooter.gamemanagers.ShootingManager;
 import com.mkkekkonen.spaceshooter.gameworld.GameWorld;
 import com.mkkekkonen.spaceshooter.input.InputManager;
+import com.mkkekkonen.spaceshooter.interfaces.ICollisionManagerFactory;
+import com.mkkekkonen.spaceshooter.interfaces.IShootingManagerFactory;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 import com.mkkekkonen.spaceshooter.sprites.ExitButton;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import dagger.Module;
 import dagger.assisted.Assisted;
@@ -22,24 +25,35 @@ import dagger.assisted.AssistedInject;
 @Module
 public class GamePlayingState extends AbstractGameState {
     @Inject InputManager inputManager;
-    @Inject ShootingManager shootingManager;
-    @Inject CollisionManager collisionManager;
     @Inject ScoreManager scoreManager;
-    @Inject GameWorld gameWorld;
     @Inject ExitButton exitButton;
 
-    private GameStateManager stateManager;
-    private BitmapFont scoreFont;
+    private final GameStateManager stateManager;
+    private final ShootingManager shootingManager;
+    private final CollisionManager collisionManager;
+    private final Provider<GameWorld> gameWorldProvider;
+    private GameWorld gameWorld;
+
+    private final BitmapFont scoreFont;
 
     private float scoreTicker = 0;
 
     @AssistedInject
     GamePlayingState(
             ResourceManager resourceManager,
+            Provider<GameWorld> gameWorldProvider,
+            IShootingManagerFactory shootingManagerFactory,
+            ICollisionManagerFactory collisionManagerFactory,
             @Assisted GameStateManager stateManager
     ) {
         this.stateManager = stateManager;
         this.scoreFont = resourceManager.getFont("score");
+
+        this.gameWorldProvider = gameWorldProvider;
+        this.gameWorld = this.gameWorldProvider.get();
+
+        this.shootingManager = shootingManagerFactory.createShootingManager(this.gameWorld);
+        this.collisionManager = collisionManagerFactory.createCollisionManager(this.gameWorld);
     }
 
     @Override
@@ -74,5 +88,11 @@ public class GamePlayingState extends AbstractGameState {
                 padScore,
                 MathUtils.invertY(padScore)
         );
+    }
+
+    public void reset() {
+        this.gameWorld = this.gameWorldProvider.get();
+        this.shootingManager.setGameWorld(this.gameWorld);
+        this.collisionManager.setGameWorld(this.gameWorld);
     }
 }

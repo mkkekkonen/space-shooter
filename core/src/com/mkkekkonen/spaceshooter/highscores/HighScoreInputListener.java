@@ -34,11 +34,11 @@ public class HighScoreInputListener implements Input.TextInputListener {
 
         HighScoreFileHandler.writeHighScores(entries);
 
-        this.gameStateManager.changeGameState(GameState.MENU);
+        this.gameStateManager.changeGameState(GameState.HIGH_SCORES);
     }
 
     @Override
     public void canceled() {
-
+        this.gameStateManager.changeGameState(GameState.MENU);
     }
 }

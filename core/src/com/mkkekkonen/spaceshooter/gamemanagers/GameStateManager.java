@@ -3,9 +3,11 @@ package com.mkkekkonen.spaceshooter.gamemanagers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mkkekkonen.spaceshooter.enums.GameState;
 import com.mkkekkonen.spaceshooter.gamestates.AbstractGameState;
+import com.mkkekkonen.spaceshooter.gamestates.GamePlayingState;
 import com.mkkekkonen.spaceshooter.input.InputManager;
 import com.mkkekkonen.spaceshooter.interfaces.IDrawable;
 import com.mkkekkonen.spaceshooter.interfaces.IGamePlayingStateFactory;
+import com.mkkekkonen.spaceshooter.interfaces.IHighScoresStateFactory;
 import com.mkkekkonen.spaceshooter.interfaces.IMenuStateFactory;
 import com.mkkekkonen.spaceshooter.interfaces.IUpdateable;
 
@@ -20,9 +22,9 @@ public class GameStateManager implements IDrawable, IUpdateable {
     @Inject InputManager inputManager;
     @Inject ScoreManager scoreManager;
 
-    private AudioManager audioManager;
+    private final AudioManager audioManager;
 
-    private Map<GameState, AbstractGameState> gameStates;
+    private final Map<GameState, AbstractGameState> gameStates;
 
     private GameState currentGameState;
 
@@ -30,11 +32,14 @@ public class GameStateManager implements IDrawable, IUpdateable {
     public GameStateManager(
             AudioManager audioManager,
             IMenuStateFactory menuStateFactory,
-            IGamePlayingStateFactory gamePlayingStateFactory
+            IGamePlayingStateFactory gamePlayingStateFactory,
+            IHighScoresStateFactory highScoresStateFactory
     ) {
         this.gameStates = new HashMap<>();
         this.gameStates.put(GameState.MENU, menuStateFactory.createMenuState(this));
         this.gameStates.put(GameState.GAME_PLAYING, gamePlayingStateFactory.createGamePlayingState(this));
+        this.gameStates.put(GameState.HIGH_SCORES, highScoresStateFactory.createHighScoresState(this));
+
         this.currentGameState = GameState.MENU;
 
         this.audioManager = audioManager;
@@ -56,6 +61,7 @@ public class GameStateManager implements IDrawable, IUpdateable {
         }
 
         if (newState.equals(GameState.GAME_PLAYING)) {
+            ((GamePlayingState)this.gameStates.get(newState)).reset();
             this.scoreManager.resetScore();
         }
 

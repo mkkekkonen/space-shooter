@@ -29,7 +29,7 @@ public class AudioManager {
             this.currentTrack.stop();
         }
 
-        if (gameState.equals(GameState.MENU)) {
+        if (gameState.equals(GameState.MENU) || gameState.equals(GameState.HIGH_SCORES)) {
             this.playMusic("menu");
         } else if (gameState.equals(GameState.GAME_PLAYING)) {
             this.playMusic("level");

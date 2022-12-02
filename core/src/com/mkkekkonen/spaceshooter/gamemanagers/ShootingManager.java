@@ -15,18 +15,25 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+import dagger.Module;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
+
+@Module
 public class ShootingManager {
     @Inject InputManager inputManager;
     @Inject IBulletFactory bulletFactory;
-    @Inject GameWorld gameWorld;
+
+    private GameWorld gameWorld;
 
     float time = 0;
 
     private static final int TOUCH_RANGE = 50;
 
-    @Inject
-    ShootingManager() {}
+    @AssistedInject
+    ShootingManager(@Assisted GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
+    }
 
     public void update() {
         Application.ApplicationType appType = Gdx.app.getType();
@@ -71,5 +78,9 @@ public class ShootingManager {
             this.time -= 0.1f;
             this.gameWorld.addBullet(this.bulletFactory.create(shipX));
         }
+    }
+
+    public void setGameWorld(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
     }
 }

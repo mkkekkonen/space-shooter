@@ -16,15 +16,22 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+import dagger.Module;
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
+
+@Module
 public class CollisionManager {
-    @Inject GameWorld gameWorld;
     @Inject AudioManager audioManager;
     @Inject ScoreManager scoreManager;
     @Inject HighScoreManager highScoreManager;
 
-    @Inject
-    CollisionManager() {}
+    private GameWorld gameWorld;
+
+    @AssistedInject
+    CollisionManager(@Assisted GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
+    }
 
     public void update() {
         this.handleBulletCollisions();
@@ -89,5 +96,9 @@ public class CollisionManager {
                 }
             }
         }
+    }
+
+    public void setGameWorld(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
     }
 }

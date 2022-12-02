@@ -1,17 +1,18 @@
 package com.mkkekkonen.spaceshooter.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 
 public class Constants {
     public static final int
-            MENU_FONT_SIZE = Constants.scaleHeight(15),
+            LARGE_FONT_SIZE = Constants.scaleHeight(15),
             SMALL_FONT_SIZE = Constants.scaleHeight(20),
             SCORE_FONT_SIZE = Constants.scaleHeight(30);
 
     public static final float
-        PX_PER_M = Gdx.graphics.getWidth() / 20,
-        SHOOTING_BAR_Y = MathUtils.mToPx(20);
+        PX_PER_M = MathUtils.scaleWidth(20),
+        SHOOTING_BAR_Y = MathUtils.mToPx(20),
+        FONT_PAD = MathUtils.scaleHeight(30),
+        FONT_PAD_SMALL = MathUtils.scaleHeight(50);
 
     public static final String
         HIGH_SCORES_FILE_NAME = "highscores.txt";

@@ -21,7 +21,9 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-@Singleton
+import dagger.Module;
+
+@Module
 public class GameWorld {
     @Inject Ship ship;
     @Inject ShootingBar shootingBar;

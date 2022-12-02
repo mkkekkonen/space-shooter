@@ -1,7 +1,5 @@
 package com.mkkekkonen.spaceshooter.gamestates;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +10,6 @@ import com.mkkekkonen.spaceshooter.input.InputManager;
 import com.mkkekkonen.spaceshooter.math.MathUtils;
 import com.mkkekkonen.spaceshooter.resources.ResourceManager;
 import com.mkkekkonen.spaceshooter.utils.Constants;
-import com.sun.org.apache.bcel.internal.Const;
 
 import javax.inject.Inject;
 
@@ -30,18 +27,18 @@ public class MenuState extends AbstractGameState {
 
     private GameStateManager stateManager;
 
-    private final float pad = Gdx.graphics.getHeight() / 30;
-    private final float padSmall = Gdx.graphics.getHeight() / 50;
-    private final float startGameTopY = MathUtils.invertY(this.pad);
-    private final float startGameBottomY = this.startGameTopY - Constants.MENU_FONT_SIZE;
-    private final float highScoresTopY = MathUtils.invertY(this.pad + this.padSmall + Constants.MENU_FONT_SIZE);
-    private final float highScoresBottomY = this.highScoresTopY - Constants.MENU_FONT_SIZE;
-    private final float toggleSoundTopY = this.pad + Constants.SMALL_FONT_SIZE;
-    private final float toggleSoundBottomY = this.pad;
+    private final float startGameTopY = MathUtils.invertY(Constants.FONT_PAD);
+    private final float startGameBottomY = this.startGameTopY - Constants.LARGE_FONT_SIZE;
+    private final float highScoresTopY = MathUtils.invertY(
+            Constants.FONT_PAD + Constants.FONT_PAD_SMALL + Constants.LARGE_FONT_SIZE
+    );
+    private final float highScoresBottomY = this.highScoresTopY - Constants.LARGE_FONT_SIZE;
+    private final float toggleSoundTopY = Constants.FONT_PAD + Constants.SMALL_FONT_SIZE;
+    private final float toggleSoundBottomY = Constants.FONT_PAD;
 
     @AssistedInject
     MenuState(ResourceManager resourceManager, @Assisted GameStateManager stateManager) {
-        this.menuFont = resourceManager.getFont("menu");
+        this.menuFont = resourceManager.getFont("large");
         this.smallFont = resourceManager.getFont("small");
 
         this.stateManager = stateManager;
@@ -54,11 +51,11 @@ public class MenuState extends AbstractGameState {
         Vector2 clickLocation = this.inputManager.getClickLocation();
 
         if (clickLocation != null) {
-            if (clickLocation.y > this.startGameBottomY
-                    && clickLocation.y < this.startGameTopY) {
+            if (clickIsBetween(this.startGameTopY, this.startGameBottomY)) {
                 stateManager.changeGameState(GameState.GAME_PLAYING);
-            } else if (clickLocation.y > this.toggleSoundBottomY
-                    && clickLocation.y < this.toggleSoundTopY) {
+            } else if (clickIsBetween(this.highScoresTopY, this.highScoresBottomY)) {
+                stateManager.changeGameState(GameState.HIGH_SCORES);
+            } else if (clickIsBetween(this.toggleSoundTopY, this.toggleSoundBottomY)) {
                 this.audioManager.toggleAudio();
             }
         }
@@ -69,22 +66,28 @@ public class MenuState extends AbstractGameState {
         this.menuFont.draw(
                 batch,
                 "New Game",
-                this.pad,
+                Constants.FONT_PAD,
                 this.startGameTopY
         );
 
         this.menuFont.draw(
                 batch,
                 "High Scores",
-                this.pad,
+                Constants.FONT_PAD,
                 this.highScoresTopY
         );
 
         this.smallFont.draw(
                 batch,
                 this.audioManager.isMuted() ? "(Sound Off)" : "(Sound On)",
-                this.pad,
+                Constants.FONT_PAD,
                 this.toggleSoundTopY
         );
+    }
+
+    private boolean clickIsBetween(float top, float bottom) {
+        Vector2 clickLocation = this.inputManager.getClickLocation();
+
+        return clickLocation.y > bottom && clickLocation.y < top;
     }
 }

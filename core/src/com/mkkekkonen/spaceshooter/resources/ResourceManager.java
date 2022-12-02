@@ -3,7 +3,6 @@ package com.mkkekkonen.spaceshooter.resources;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,8 +14,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import dagger.Module;
 
 @Singleton
 public class ResourceManager {
@@ -94,7 +91,7 @@ public class ResourceManager {
 
         this.fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SatellaRegular.ttf"));
 
-        this.fonts.put("menu", this.generateFont(Constants.MENU_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
+        this.fonts.put("large", this.generateFont(Constants.LARGE_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
         this.fonts.put("small", this.generateFont(Constants.SMALL_FONT_SIZE, Color.SALMON, 2, Color.WHITE));
         this.fonts.put("score", this.generateFont(Constants.SCORE_FONT_SIZE, Color.SALMON, 1, Color.WHITE));
     }
