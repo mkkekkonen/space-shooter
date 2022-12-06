@@ -73,8 +73,8 @@ public class Animation implements IDrawable {
                 this.getY() - this.getScaledHeight(sprite) / 2,
                 this.getScaledWidth(sprite) / 2,
                 this.getScaledHeight(sprite) / 2,
-                sprite.getWidth(),
-                sprite.getHeight(),
+                this.getScaledWidth(sprite),
+                this.getScaledHeight(sprite),
                 1,
                 1,
                 this.rotation
