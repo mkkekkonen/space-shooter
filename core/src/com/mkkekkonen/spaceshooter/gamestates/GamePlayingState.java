@@ -64,10 +64,12 @@ public class GamePlayingState extends AbstractGameState {
         this.gameWorld.update();
         this.exitButton.update(deltaTime);
 
-        scoreTicker += deltaTime;
-        if (scoreTicker > 1f) {
-            scoreTicker -= 1f;
-            this.scoreManager.addToScore(5);
+        if (!this.collisionManager.isShipDestroyed()) {
+            scoreTicker += deltaTime;
+            if (scoreTicker > 1f) {
+                scoreTicker -= 1f;
+                this.scoreManager.addToScore(5);
+            }
         }
 
         if (this.exitButton.isClicked()) {
@@ -95,5 +97,6 @@ public class GamePlayingState extends AbstractGameState {
         this.gameWorld = this.gameWorldProvider.get();
         this.shootingManager.setGameWorld(this.gameWorld);
         this.collisionManager.setGameWorld(this.gameWorld);
+        this.collisionManager.setShipDestroyed(false);
     }
 }

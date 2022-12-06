@@ -28,6 +28,8 @@ public class CollisionManager {
 
     private GameWorld gameWorld;
 
+    private boolean shipDestroyed = false;
+
     @AssistedInject
     CollisionManager(@Assisted GameWorld gameWorld) {
         this.gameWorld = gameWorld;
@@ -93,6 +95,7 @@ public class CollisionManager {
                     asteroid.setState(State.DISPOSABLE);
                     this.audioManager.playExplosionSound();
                     this.highScoreManager.openEnterNameDialog();
+                    this.shipDestroyed = true;
                 }
             }
         }
@@ -100,5 +103,13 @@ public class CollisionManager {
 
     public void setGameWorld(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
+    }
+
+    public boolean isShipDestroyed() {
+        return shipDestroyed;
+    }
+
+    public void setShipDestroyed(boolean shipDestroyed) {
+        this.shipDestroyed = shipDestroyed;
     }
 }
