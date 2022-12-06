@@ -85,6 +85,11 @@ public class MenuState extends AbstractGameState {
         );
     }
 
+    @Override
+    public void reset() {
+        // no-op
+    }
+
     private boolean clickIsBetween(float top, float bottom) {
         Vector2 clickLocation = this.inputManager.getClickLocation();
 

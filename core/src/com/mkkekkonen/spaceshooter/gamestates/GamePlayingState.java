@@ -90,6 +90,7 @@ public class GamePlayingState extends AbstractGameState {
         );
     }
 
+    @Override
     public void reset() {
         this.gameWorld = this.gameWorldProvider.get();
         this.shootingManager.setGameWorld(this.gameWorld);

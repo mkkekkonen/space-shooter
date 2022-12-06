@@ -7,4 +7,5 @@ import com.mkkekkonen.spaceshooter.interfaces.IUpdateable;
 public abstract class AbstractGameState implements IDrawable, IUpdateable {
     public abstract void update(float deltaTime);
     public abstract void draw(SpriteBatch batch);
+    public abstract void reset();
 }

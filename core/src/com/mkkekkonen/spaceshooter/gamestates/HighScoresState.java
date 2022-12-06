@@ -31,7 +31,7 @@ public class HighScoresState extends AbstractGameState {
 
     private final GameStateManager stateManager;
 
-    private final List<HighScore> highScores;
+    private List<HighScore> highScores;
 
     private final float titleTopY = MathUtils.invertY(Constants.FONT_PAD);
     private final float titleBottomY = this.titleTopY - Constants.LARGE_FONT_SIZE;
@@ -86,5 +86,10 @@ public class HighScoresState extends AbstractGameState {
         }
 
         this.exitButton.draw(batch);
+    }
+
+    @Override
+    public void reset() {
+        this.highScores = HighScoreFileHandler.getHighScoreEntries();
     }
 }

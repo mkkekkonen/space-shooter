@@ -60,8 +60,9 @@ public class GameStateManager implements IDrawable, IUpdateable {
             return;
         }
 
+        this.gameStates.get(newState).reset();
+
         if (newState.equals(GameState.GAME_PLAYING)) {
-            ((GamePlayingState)this.gameStates.get(newState)).reset();
             this.scoreManager.resetScore();
         }
 
