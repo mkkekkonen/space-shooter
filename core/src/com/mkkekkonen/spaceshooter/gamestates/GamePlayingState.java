@@ -58,13 +58,17 @@ public class GamePlayingState extends AbstractGameState {
 
     @Override
     public void update(float deltaTime) {
+        boolean shipDestroyed = this.collisionManager.isShipDestroyed();
+
         this.inputManager.getInput();
-        this.shootingManager.update();
-        this.collisionManager.update();
         this.gameWorld.update();
+        this.collisionManager.update();
+
         this.exitButton.update(deltaTime);
 
-        if (!this.collisionManager.isShipDestroyed()) {
+        if (!shipDestroyed) {
+            this.shootingManager.update();
+
             scoreTicker += deltaTime;
             if (scoreTicker > 1f) {
                 scoreTicker -= 1f;
