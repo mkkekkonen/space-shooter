@@ -15,7 +15,8 @@ public class Constants {
         FONT_PAD_SMALL = MathUtils.scaleHeight(50);
 
     public static final String
-        HIGH_SCORES_FILE_NAME = "highscores.txt";
+        HIGH_SCORES_FILE_NAME = "highscores.txt",
+        PRIVACY_POLICY_URL = "https://mkkekkonen.github.io/spaceshooter/privacypolicy/";
 
     private static int scaleHeight(int divisor) {
         return (int) MathUtils.scaleHeight(divisor);

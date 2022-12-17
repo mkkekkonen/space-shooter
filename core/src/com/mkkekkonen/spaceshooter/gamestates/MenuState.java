@@ -1,5 +1,6 @@
 package com.mkkekkonen.spaceshooter.gamestates;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -35,6 +36,8 @@ public class MenuState extends AbstractGameState {
     private final float highScoresBottomY = this.highScoresTopY - Constants.LARGE_FONT_SIZE;
     private final float toggleSoundTopY = Constants.FONT_PAD + Constants.SMALL_FONT_SIZE;
     private final float toggleSoundBottomY = Constants.FONT_PAD;
+    private final float privacyPolicyBottomY = this.toggleSoundTopY + Constants.FONT_PAD;
+    private final float privacyPolicyTopY = this.privacyPolicyBottomY + Constants.SMALL_FONT_SIZE;
 
     @AssistedInject
     MenuState(ResourceManager resourceManager, @Assisted GameStateManager stateManager) {
@@ -55,6 +58,8 @@ public class MenuState extends AbstractGameState {
                 stateManager.changeGameState(GameState.GAME_PLAYING);
             } else if (clickIsBetween(this.highScoresTopY, this.highScoresBottomY)) {
                 stateManager.changeGameState(GameState.HIGH_SCORES);
+            } else if (clickIsBetween(this.privacyPolicyTopY, this.privacyPolicyBottomY)) {
+                Gdx.net.openURI(Constants.PRIVACY_POLICY_URL);
             } else if (clickIsBetween(this.toggleSoundTopY, this.toggleSoundBottomY)) {
                 this.audioManager.toggleAudio();
             }
@@ -75,6 +80,13 @@ public class MenuState extends AbstractGameState {
                 "High Scores",
                 Constants.FONT_PAD,
                 this.highScoresTopY
+        );
+
+        this.smallFont.draw(
+                batch,
+                "Privacy Policy",
+                Constants.FONT_PAD,
+                this.privacyPolicyTopY
         );
 
         this.smallFont.draw(
